@@ -34,7 +34,9 @@ input{width:100%;box-sizing:border-box;padding:12px;border:1px solid #cbd5e1;bor
 <p>医療機関では、診療情報・検査結果・連絡先など、特に慎重な取扱いが必要な情報を扱います。この研修では、日常業務で起こりやすい事例を中心に確認します。</p>
 <ul><li>所要時間：約10～15分</li><li>確認テスト：10問</li><li>合格基準：80点以上</li></ul>
 <button id="startButton">研修を開始する</button>
-<p class="small">※この試作品では受講情報を外部へ送信・保存しません。</p>
+<p class="small">
+※合格後、氏名・所属部署・得点・結果をGoogleフォームから送信し、受講記録として保存します。
+</p>
 </section>
 
 <section id="lesson" class="card hidden">
@@ -50,11 +52,29 @@ input{width:100%;box-sizing:border-box;padding:12px;border:1px solid #cbd5e1;bor
 </section>
 
 <section id="result" class="card hidden">
-<h2>研修結果</h2><p id="score"></p>
+
+<h2>研修結果</h2>
+
+<div id="score"></div>
+
 <div id="resultmsg"></div>
+
 <div id="info" class="hidden">
-<h3>受講記録</h3>
-<p>合格おめでとうございます。下のフォームから受講記録を入力してください。</p>
+
+<div style="background:#fff4d6;border-left:5px solid #f0a000;padding:15px;margin:20px 0;border-radius:8px;">
+<strong>⚠️ 重要：この画面だけでは研修完了ではありません</strong>
+<p style="margin:8px 0 0;">
+受講記録の入力と送信が必要です。<br>
+下のフォームに<strong>氏名・所属部署を入力して「送信」</strong>してください。
+</p>
+</div>
+
+<h3>① 受講記録を入力してください</h3>
+
+<p>
+得点と合否は自動的に入力されています。<br>
+<strong>氏名と所属部署を入力してください。</strong>
+</p>
 
 <iframe
 id="googleForm"
@@ -66,29 +86,21 @@ marginheight="0"
 marginwidth="0">
 読み込んでいます…
 </iframe>
-    
-<button onclick="finishTraining()">受講を完了する</button>
-    
+
+<div style="background:#e8f2ff;padding:15px;margin-top:20px;border-radius:8px;">
+<strong>② フォームを送信してください</strong>
+<p style="margin:8px 0;">
+「送信」を押したことを確認してから、下のボタンを押してください。
+</p>
+</div>
+
+<button onclick="finishTraining()">
+受講記録を送信しました → 受講完了
+</button>
+
 </div>
 </section>
-
-<section id="done" class="card hidden">
-<h2 class="good">受講完了</h2>
-
-<p>
-受講記録の送信が完了しました。
-</p>
-
-<p>
-これで「2026年度 個人情報保護研修」は終了です。
-</p>
-
-<p class="small">
-ご協力ありがとうございました。
-</p>
-
-<button onclick="location.reload()">トップへ戻る</button>
-</section>
+    
 </main>
 
 <script>
@@ -222,7 +234,15 @@ function showResult(){
     }
 }
     function finishTraining(){
-    show("done");
+
+    var ok = confirm(
+        "Googleフォームの「送信」ボタンを押しましたか？\n\n" +
+        "送信済みの場合は「OK」を押してください。"
+    );
+
+    if(ok){
+        show("done");
+    }
 }
 </script>
 
