@@ -66,6 +66,9 @@ marginheight="0"
 marginwidth="0">
 読み込んでいます…
 </iframe>
+    
+<button onclick="finishTraining()">受講を完了する</button>
+    
 </div>
 </section>
 
@@ -206,6 +209,9 @@ function showResult(){
             '<p class="bad">80点未満です。研修内容をもう一度確認して再受講してください。</p>' +
             '<button onclick="start()">もう一度受講する</button>';
     }
+}
+    function finishTraining(){
+    show("done");
 }
 </script>
 
