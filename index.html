@@ -169,7 +169,7 @@ function answer(a){
     if(qi<qs.length){
         renderQuiz();
     }else{
-        showResult();
+        ();
     }
 }
 
@@ -191,10 +191,11 @@ function showResult(){
 
         // Googleフォームの事前入力URLを作成
         var formUrl =
-            "https://docs.google.com/forms/d/e/1FAIpQLScEpwcPaGIbH0ZGEOzopUD8gb1_J1NzLcOleT8voxW03XOwpQ/viewform?embedded=true" +
-            "&entry.1558472501=" + encodeURIComponent(p) +
-            "&entry.26495839=" + encodeURIComponent(resultText);
-
+    "https://docs.google.com/forms/d/e/1FAIpQLScEpwcPaGIbH0ZGEOzopUD8gb1_J1NzLcOleT8voxW03XOwpQ/viewform" +
+    "?usp=pp_url" +
+    "&entry.1558472501=" + encodeURIComponent(p) +
+    "&entry.26495839=" + encodeURIComponent(resultText) +
+    "&embedded=true";
         // 先にフォームを表示
         document.getElementById("info").classList.remove("hidden");
 
