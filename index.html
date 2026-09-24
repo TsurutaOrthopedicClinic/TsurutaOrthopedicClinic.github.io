@@ -1,44 +1,179 @@
+```html
 <!doctype html>
 <html lang="ja">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>2026年度 個人情報保護研修</title>
+
 <style>
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif;margin:0;background:#f4f7fb;color:#233044;line-height:1.7}
-header{background:#174a7e;color:white;padding:28px 20px}
-.wrap{max-width:760px;margin:auto;padding:20px}
-.card{background:white;border-radius:14px;padding:22px;margin:16px 0;box-shadow:0 2px 10px #00000012}
-h1{font-size:25px;margin:0 0 8px} h2{font-size:20px;color:#174a7e}
-.badge{display:inline-block;background:#e8f2ff;color:#174a7e;border-radius:20px;padding:5px 10px;font-size:13px}
-button{width:100%;padding:14px;border:0;border-radius:10px;background:#174a7e;color:#fff;font-size:16px;margin-top:10px}
-.choice{background:#f1f5f9;color:#233044;text-align:left}
-.choice:hover{background:#e4edf7}
-.hidden{display:none}
-.progress{height:8px;background:#dde5ee;border-radius:8px;overflow:hidden}.bar{height:100%;background:#2f7fbf;width:0}
-.small{font-size:13px;color:#64748b}
-.good{color:#18794e;font-weight:bold}.bad{color:#b42318;font-weight:bold}
-input,select{
-width:100%;
-box-sizing:border-box;
-padding:12px;
-border:1px solid #cbd5e1;
-border-radius:8px;
-margin:6px 0 12px;
-font-size:16px;
-background:white;
+body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif;
+    margin:0;
+    background:#f4f7fb;
+    color:#233044;
+    line-height:1.7
+}
+
+header{
+    background:#174a7e;
+    color:white;
+    padding:28px 20px
+}
+
+.wrap{
+    max-width:760px;
+    margin:auto;
+    padding:20px
+}
+
+.card{
+    background:white;
+    border-radius:14px;
+    padding:22px;
+    margin:16px 0;
+    box-shadow:0 2px 10px #00000012
+}
+
+h1{
+    font-size:25px;
+    margin:0 0 8px
+}
+
+h2{
+    font-size:20px;
+    color:#174a7e
+}
+
+h3{
+    margin-top:24px
+}
+
+.badge{
+    display:inline-block;
+    background:#e8f2ff;
+    color:#174a7e;
+    border-radius:20px;
+    padding:5px 10px;
+    font-size:13px
+}
+
+button{
+    width:100%;
+    padding:14px;
+    border:0;
+    border-radius:10px;
+    background:#174a7e;
+    color:#fff;
+    font-size:16px;
+    margin-top:10px;
+    cursor:pointer
+}
+
+button:hover{
+    opacity:.9
+}
+
+.choice{
+    background:#f1f5f9;
+    color:#233044;
+    text-align:left
+}
+
+.choice:hover{
+    background:#e4edf7;
+}
+
+.hidden{
+    display:none
+}
+
+.progress{
+    height:8px;
+    background:#dde5ee;
+    border-radius:8px;
+    overflow:hidden
+}
+
+.bar{
+    height:100%;
+    background:#2f7fbf;
+    width:0
+}
+
+.small{
+    font-size:13px;
+    color:#64748b
+}
+
+.good{
+    color:#18794e;
+    font-weight:bold
+}
+
+.bad{
+    color:#b42318;
+    font-weight:bold
+}
+
+input,
+select{
+    width:100%;
+    box-sizing:border-box;
+    padding:12px;
+    border:1px solid #cbd5e1;
+    border-radius:8px;
+    margin:6px 0 12px;
+    font-size:16px;
+    background:white
+}
+
+.notice{
+    background:#fff4d6;
+    border-left:5px solid #f0a000;
+    padding:15px;
+    margin:20px 0;
+    border-radius:8px
+}
+
+.send-notice{
+    background:#e8f2ff;
+    padding:15px;
+    margin-top:20px;
+    border-radius:8px
+}
+
+.result-score{
+    font-size:24px;
+    margin:15px 0
 }
 </style>
 </head>
+
 <body>
-<header><div class="wrap">
+
+<header>
+<div class="wrap">
 <span class="badge">病院職員向け</span>
+
 <h1>2026年度 個人情報保護研修</h1>
-<div>患者さんの大切な情報を守るための10分研修</div>
-</div></header>
+
+<div>
+患者さんの大切な情報を守るための10分研修
+</div>
+
+</div>
+</header>
+
 
 <main class="wrap">
+
+<!-- =========================
+     研修開始画面
+========================= -->
+
 <section id="home" class="card">
+
 <h2>この研修について</h2>
 
 <p>
@@ -53,28 +188,66 @@ background:white;
 <li>合格基準：80点以上</li>
 </ul>
 
+
 <h3>受講者情報</h3>
 
 <label for="userName">氏名</label>
-<input type="text" id="userName" placeholder="氏名を入力してください">
+
+<input
+type="text"
+id="userName"
+placeholder="氏名を入力してください"
+autocomplete="name"
+>
+
 
 <label for="department">所属部署</label>
+
 <select id="department">
-    <option value="">所属部署を選択してください</option>
-    <option value="医師">医師</option>
-    <option value="看護師">看護部</option>
-    <option value="看護師">病棟</option>
-    <option value="看護師">手術室・中材</option>
-    <option value="看護師">外来</option>
-    <option value="リハビリテーション科">リハビリテーション科</option>
-    <option value="放射線科">放射線科</option>
-    <option value="放射線科">薬剤科</option>
-    <option value="医事課">医事課</option>
-    <option value="総務課">事務</option>
-    <option value="その他">その他</option>
+
+<option value="">
+所属部署を選択してください
+</option>
+
+<option value="医師">
+医師
+</option>
+
+<option value="看護師">
+看護師
+</option>
+
+<option value="リハビリテーション科">
+リハビリテーション科
+</option>
+
+<option value="放射線科">
+放射線科
+</option>
+
+<option value="検査科">
+検査科
+</option>
+
+<option value="医事課">
+医事課
+</option>
+
+<option value="総務課">
+総務課
+</option>
+
+<option value="その他">
+その他
+</option>
+
 </select>
 
-<button id="startButton">研修を開始する</button>
+
+<button id="startButton">
+研修を開始する
+</button>
+
 
 <p class="small">
 ※氏名・所属部署を入力してから研修を開始してください。
@@ -82,41 +255,105 @@ background:white;
 
 </section>
 
+
+<!-- =========================
+     研修画面
+========================= -->
+
 <section id="lesson" class="card hidden">
-<div class="progress"><div id="bar" class="bar"></div></div>
-<h2 id="ltitle"></h2><div id="lbody"></div>
-<button onclick="nextLesson()">次へ</button>
+
+<div class="progress">
+<div id="bar" class="bar"></div>
+</div>
+
+<h2 id="ltitle"></h2>
+
+<div id="lbody"></div>
+
+<button onclick="nextLesson()">
+次へ
+</button>
+
 </section>
 
+
+<!-- =========================
+     テスト画面
+========================= -->
+
 <section id="quiz" class="card hidden">
-<div class="progress"><div id="qbar" class="bar"></div></div>
-<h2 id="qtitle"></h2><p id="qtext"></p>
+
+<div class="progress">
+<div id="qbar" class="bar"></div>
+</div>
+
+<h2 id="qtitle"></h2>
+
+<p id="qtext"></p>
+
 <div id="choices"></div>
+
 </section>
+
+
+<!-- =========================
+     結果画面
+========================= -->
 
 <section id="result" class="card hidden">
 
 <h2>研修結果</h2>
 
-<div id="score"></div>
+<div id="score" class="result-score"></div>
 
 <div id="resultmsg"></div>
 
+
+<!-- 合格時のみ表示 -->
+
 <div id="info" class="hidden">
 
-<div style="background:#fff4d6;border-left:5px solid #f0a000;padding:15px;margin:20px 0;border-radius:8px;">
-<strong>⚠️ 重要：この画面だけでは研修完了ではありません</strong>
+<div class="notice">
+
+<strong>⚠️ 研修を完了するには、受講記録の送信が必要です。</strong>
+
 <p style="margin:8px 0 0;">
-下のフォームから<strong>受講記録を送信</strong>してください。
+下の「受講記録を送信する」ボタンを押してください。
 </p>
+
 </div>
 
-<h3>受講記録の送信</h3>
 
-<p>
+<button onclick="openGoogleForm()">
+受講記録を送信する
+</button>
+
+</div>
+
+
+</section>
+
+
+<!-- =========================
+     Googleフォーム画面
+========================= -->
+
+<section id="formSection" class="card hidden">
+
+<h2>受講記録の送信</h2>
+
+<div class="send-notice">
+
+<strong>受講記録を確認してください</strong>
+
+<p style="margin:8px 0 0;">
 氏名・所属部署・得点・合否は自動的に入力されています。<br>
-内容を確認して、下のフォームの<strong>「送信」</strong>を押してください。
+内容を確認して、問題がなければGoogleフォームの
+<strong>「送信」</strong>を押してください。
 </p>
+
+</div>
+
 
 <iframe
 id="googleForm"
@@ -129,178 +366,504 @@ marginwidth="0">
 読み込んでいます…
 </iframe>
 
+
 <button onclick="finishTraining()">
 受講記録を送信しました → 受講完了
 </button>
 
-</div>
 </section>
-    
+
+
+<!-- =========================
+     受講完了画面
+========================= -->
+
+<section id="done" class="card hidden">
+
+<h2 class="good">
+受講完了
+</h2>
+
+<p>
+受講記録の送信手続きを完了しました。
+</p>
+
+<p>
+これで「2026年度 個人情報保護研修」は終了です。
+</p>
+
+<p class="small">
+ご協力ありがとうございました。
+</p>
+
+<button onclick="location.reload()">
+トップへ戻る
+</button>
+
+</section>
+
 </main>
 
+
 <script>
+
+/* ==========================================
+   研修内容
+========================================== */
+
 const lessons=[
-["1. 個人情報とは","氏名、住所、電話番号だけでなく、診療情報、検査結果、画像なども重要な個人情報です。業務上知り得た患者さんの情報は、必要な範囲で適切に扱います。"],
-["2. カルテ・検査情報","業務上必要のない患者情報を閲覧したり、興味本位で検索したりしてはいけません。画面を離れるときはロックするなど、第三者に見られないよう注意します。"],
-["3. スマートフォン・写真","患者さんのカルテ画面、検査画像、書類などを個人のスマートフォンで撮影・保存することは避けます。院内で許可された方法以外で患者情報を持ち出さないことが基本です。"],
-["4. SNS・メッセージ","患者さんが特定できる情報をSNSや個人のメッセージアプリへ投稿・送信してはいけません。『名前を書かなければ大丈夫』とも限りません。"],
-["5. メール・FAX","送信前に宛先、患者情報、添付ファイル、FAX番号などを確認します。誤送信に気づいた場合は、自己判断で隠さず、すぐに定められた責任者へ報告します。"],
-["6. USB・書類","患者情報を含むデータを無断でUSBメモリ等へコピーしたり、私物PCへ保存したりしないでください。紙の書類も机上や廃棄場所に放置しません。"],
-["7. ID・パスワード","IDやパスワードを他人に教えたり、共有したりしません。付箋などに書いてPCへ貼ることも避けます。"],
-["8. もし事故が起きたら","紛失、誤送信、誤交付、画面の覗き見などに気づいたら、早期報告が重要です。『小さいミスだから』と放置しないことが被害拡大の防止につながります。"]
+
+[
+"1. 個人情報とは",
+"氏名、住所、電話番号だけでなく、診療情報、検査結果、画像なども重要な個人情報です。業務上知り得た患者さんの情報は、必要な範囲で適切に扱います。"
+],
+
+[
+"2. カルテ・検査情報",
+"業務上必要のない患者情報を閲覧したり、興味本位で検索したりしてはいけません。画面を離れるときはロックするなど、第三者に見られないよう注意します。"
+],
+
+[
+"3. スマートフォン・写真",
+"患者さんのカルテ画面、検査画像、書類などを個人のスマートフォンで撮影・保存することは避けます。院内で許可された方法以外で患者情報を持ち出さないことが基本です。"
+],
+
+[
+"4. SNS・メッセージ",
+"患者さんが特定できる情報をSNSや個人のメッセージアプリへ投稿・送信してはいけません。『名前を書かなければ大丈夫』とも限りません。"
+],
+
+[
+"5. メール・FAX",
+"送信前に宛先、患者情報、添付ファイル、FAX番号などを確認します。誤送信に気づいた場合は、自己判断で隠さず、すぐに定められた責任者へ報告します。"
+],
+
+[
+"6. USB・書類",
+"患者情報を含むデータを無断でUSBメモリ等へコピーしたり、私物PCへ保存したりしないでください。紙の書類も机上や廃棄場所に放置しません。"
+],
+
+[
+"7. ID・パスワード",
+"IDやパスワードを他人に教えたり、共有したりしません。付箋などに書いてPCへ貼ることも避けます。"
+],
+
+[
+"8. もし事故が起きたら",
+"紛失、誤送信、誤交付、画面の覗き見などに気づいたら、早期報告が重要です。『小さいミスだから』と放置しないことが被害拡大の防止につながります。"
+]
+
 ];
 
+
+/* ==========================================
+   テスト問題
+========================================== */
+
 const qs=[
-["患者さんの氏名が写っていなければ、カルテ画面を個人スマホで撮影しても問題ない。","×"],
-["業務上必要がない患者さんのカルテを興味本位で閲覧してよい。","×"],
-["FAX送信前には、宛先や番号を確認する。","○"],
-["患者情報を含むファイルを私物USBへコピーして持ち帰っても、他人に見せなければ問題ない。","×"],
-["ID・パスワードは同僚から頼まれた場合には教えてよい。","×"],
-["患者さんが特定できる情報を個人SNSへ投稿してはいけない。","○"],
-["個人情報の誤送信に気づいたら、まず隠して様子を見る。","×"],
-["退席時は、第三者にカルテ画面を見られないよう画面をロックする。","○"],
-["患者情報を含む書類を机の上に置いたまま離席しても、院内なので問題ない。","×"],
-["個人情報の事故は、小さなものでも決められた方法で報告する。","○"]
+
+[
+"患者さんの氏名が写っていなければ、カルテ画面を個人スマホで撮影しても問題ない。",
+"×"
+],
+
+[
+"業務上必要がない患者さんのカルテを興味本位で閲覧してよい。",
+"×"
+],
+
+[
+"FAX送信前には、宛先や番号を確認する。",
+"○"
+],
+
+[
+"患者情報を含むファイルを私物USBへコピーして持ち帰っても、他人に見せなければ問題ない。",
+"×"
+],
+
+[
+"ID・パスワードは同僚から頼まれた場合には教えてよい。",
+"×"
+],
+
+[
+"患者さんが特定できる情報を個人SNSへ投稿してはいけない。",
+"○"
+],
+
+[
+"個人情報の誤送信に気づいたら、まず隠して様子を見る。",
+"×"
+],
+
+[
+"退席時は、第三者にカルテ画面を見られないよう画面をロックする。",
+"○"
+],
+
+[
+"患者情報を含む書類を机の上に置いたまま離席しても、院内なので問題ない。",
+"×"
+],
+
+[
+"個人情報の事故は、小さなものでも決められた方法で報告する。",
+"○"
+]
+
 ];
+
+
+/* ==========================================
+   変数
+========================================== */
 
 let li=0;
 let qi=0;
 let scoreN=0;
 
+
+/* ==========================================
+   画面切り替え
+========================================== */
+
 function show(id){
+
     document.querySelectorAll("section").forEach(function(x){
+
         x.classList.add("hidden");
+
     });
+
     document.getElementById(id).classList.remove("hidden");
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
 }
+
+
+/* ==========================================
+   研修開始
+========================================== */
 
 function start(){
 
-    var name = document.getElementById("userName").value.trim();
-    var department = document.getElementById("department").value.trim();
+    var name =
+        document.getElementById("userName").value.trim();
+
+    var department =
+        document.getElementById("department").value;
+
 
     if(name === ""){
+
         alert("氏名を入力してください。");
+
         document.getElementById("userName").focus();
+
         return;
     }
+
 
     if(department === ""){
-        alert("所属部署を入力してください。");
+
+        alert("所属部署を選択してください。");
+
         document.getElementById("department").focus();
+
         return;
     }
 
+
     li=0;
+
+    qi=0;
+
+    scoreN=0;
+
     show("lesson");
+
     renderLesson();
 }
 
-document.getElementById("startButton").addEventListener("click", start);
+
+/* ==========================================
+   開始ボタン
+========================================== */
+
+document
+.getElementById("startButton")
+.addEventListener("click",start);
+
+
+/* ==========================================
+   研修表示
+========================================== */
 
 function renderLesson(){
-    document.getElementById("ltitle").textContent=lessons[li][0];
-    document.getElementById("lbody").innerHTML="<p>"+lessons[li][1]+"</p>";
-    document.getElementById("bar").style.width=((li+1)/lessons.length*100)+"%";
+
+    document.getElementById("ltitle").textContent =
+        lessons[li][0];
+
+    document.getElementById("lbody").innerHTML =
+        "<p>"+lessons[li][1]+"</p>";
+
+    document.getElementById("bar").style.width =
+        ((li+1)/lessons.length*100)+"%";
 }
 
+
+/* ==========================================
+   次の研修
+========================================== */
+
 function nextLesson(){
+
     li++;
 
+
     if(li<lessons.length){
+
         renderLesson();
+
     }else{
+
         qi=0;
+
         scoreN=0;
+
         show("quiz");
+
         renderQuiz();
     }
 }
 
-function renderQuiz(){
-    document.getElementById("qtitle").textContent="確認テスト "+(qi+1)+"/10";
-    document.getElementById("qtext").textContent=qs[qi][0];
-    document.getElementById("qbar").style.width=((qi+1)/qs.length*100)+"%";
 
-    var c=document.getElementById("choices");
+/* ==========================================
+   テスト表示
+========================================== */
+
+function renderQuiz(){
+
+    document.getElementById("qtitle").textContent =
+        "確認テスト "+(qi+1)+"/10";
+
+    document.getElementById("qtext").textContent =
+        qs[qi][0];
+
+    document.getElementById("qbar").style.width =
+        ((qi+1)/qs.length*100)+"%";
+
+
+    var c =
+        document.getElementById("choices");
+
     c.innerHTML="";
 
+
     ["○","×"].forEach(function(a){
-        var b=document.createElement("button");
+
+        var b =
+            document.createElement("button");
+
         b.className="choice";
+
         b.textContent=a;
+
         b.onclick=function(){
+
             answer(a);
+
         };
+
         c.appendChild(b);
+
     });
+
 }
 
+
+/* ==========================================
+   回答
+========================================== */
+
 function answer(a){
+
     if(a===qs[qi][1]){
+
         scoreN++;
+
     }
+
 
     qi++;
 
+
     if(qi<qs.length){
+
         renderQuiz();
+
     }else{
+
         showResult();
+
     }
+
 }
+
+
+/* ==========================================
+   結果表示
+========================================== */
 
 function showResult(){
+
     show("result");
 
-    var p = scoreN * 10;
-    var resultText = p >= 80 ? "合格" : "不合格";
+
+    var p =
+        scoreN*10;
+
+    var resultText =
+        p>=80 ? "合格" : "不合格";
+
 
     document.getElementById("score").innerHTML =
-        "<strong>" + scoreN + " / 10問（" + p + "点）</strong>";
+        "<strong>"+
+        scoreN+
+        " / 10問（"+
+        p+
+        "点）"+
+        "</strong>";
 
-    var m = document.getElementById("resultmsg");
 
-    if(p >= 80){
+    var m =
+        document.getElementById("resultmsg");
 
-        m.innerHTML =
-            '<p class="good">合格基準（80点）を満たしました。</p>';
 
-        document.getElementById("info").classList.remove("hidden");
-
-        var name = document.getElementById("userName").value;
-        var department = document.getElementById("department").value;
-        
-        var formUrl =
-            "https://docs.google.com/forms/d/e/1FAIpQLScEpwcPaGIbH0ZGEOzopUD8gb1_J1NzLcOleT8voxW03XOwpQ/viewform" +
-            "?usp=pp_url" +
-            "&entry.959005524=" + encodeURIComponent(name) +
-            "&entry.1484111667=" + encodeURIComponent(department) +
-            "&entry.1558472501=" + encodeURIComponent(p) +
-            "&entry.26495839=" + encodeURIComponent(resultText) +
-            "&embedded=true";
-
-        document.getElementById("googleForm").src = formUrl;
-
-    } else {
+    if(p>=80){
 
         m.innerHTML =
-            '<p class="bad">80点未満です。研修内容をもう一度確認して再受講してください。</p>' +
-            '<button onclick="start()">もう一度受講する</button>';
+            '<p class="good">'+
+            '合格基準（80点）を満たしました。'+
+            '</p>';
+
+
+        document
+        .getElementById("info")
+        .classList.remove("hidden");
+
+
+    }else{
+
+        m.innerHTML =
+            '<p class="bad">'+
+            '80点未満です。研修内容をもう一度確認して再受講してください。'+
+            '</p>'+
+            '<button onclick="restartTraining()">'+
+            'もう一度受講する'+
+            '</button>';
+
     }
-}
-    function finishTraining(){
 
-    var ok = confirm(
-        "Googleフォームの「送信」ボタンを押しましたか？\n\n" +
-        "送信済みの場合は「OK」を押してください。"
-    );
+}
+
+
+/* ==========================================
+   再受講
+========================================== */
+
+function restartTraining(){
+
+    li=0;
+
+    qi=0;
+
+    scoreN=0;
+
+    show("lesson");
+
+    renderLesson();
+
+}
+
+
+/* ==========================================
+   Googleフォームを開く
+========================================== */
+
+function openGoogleForm(){
+
+    var name =
+        document.getElementById("userName").value;
+
+    var department =
+        document.getElementById("department").value;
+
+    var p =
+        scoreN*10;
+
+    var resultText =
+        p>=80 ? "合格" : "不合格";
+
+
+    var formUrl =
+
+        "https://docs.google.com/forms/d/e/1FAIpQLScEpwcPaGIbH0ZGEOzopUD8gb1_J1NzLcOleT8voxW03XOwpQ/viewform" +
+
+        "?usp=pp_url" +
+
+        "&entry.959005524="+
+        encodeURIComponent(name) +
+
+        "&entry.1484111667="+
+        encodeURIComponent(department) +
+
+        "&entry.1558472501="+
+        encodeURIComponent(p) +
+
+        "&entry.26495839="+
+        encodeURIComponent(resultText) +
+
+        "&embedded=true";
+
+
+    document
+    .getElementById("googleForm")
+    .src=formUrl;
+
+
+    show("formSection");
+
+}
+
+
+/* ==========================================
+   受講完了
+========================================== */
+
+function finishTraining(){
+
+    var ok =
+        confirm(
+            "Googleフォームの「送信」ボタンを押しましたか？\n\n"+
+            "送信済みの場合は「OK」を押してください。"
+        );
+
 
     if(ok){
+
         show("done");
+
     }
+
 }
+
 </script>
 
 </body>
 </html>
+```
