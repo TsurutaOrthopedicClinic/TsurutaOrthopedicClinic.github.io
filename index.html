@@ -106,7 +106,9 @@ let qi=0;
 let scoreN=0;
 
 function show(id){
-    document.querySelectorAll("section").forEach(x=>x.classList.add("hidden"));
+    document.querySelectorAll("section").forEach(function(x){
+        x.classList.add("hidden");
+    });
     document.getElementById(id).classList.remove("hidden");
 }
 
@@ -140,11 +142,11 @@ function renderQuiz(){
     document.getElementById("qtext").textContent=qs[qi][0];
     document.getElementById("qbar").style.width=((qi+1)/qs.length*100)+"%";
 
-    let c=document.getElementById("choices");
+    var c=document.getElementById("choices");
     c.innerHTML="";
 
     ["○","×"].forEach(function(a){
-        let b=document.createElement("button");
+        var b=document.createElement("button");
         b.className="choice";
         b.textContent=a;
         b.onclick=function(){
@@ -171,12 +173,12 @@ function answer(a){
 function showResult(){
     show("result");
 
-    let p=scoreN*10;
+    var p=scoreN*10;
 
     document.getElementById("score").innerHTML=
         "<strong>"+scoreN+" / 10問（"+p+"点）</strong>";
 
-    let m=document.getElementById("resultmsg");
+    var m=document.getElementById("resultmsg");
 
     if(p>=80){
         m.innerHTML='<p class="good">合格基準（80点）を満たしました。</p>';
@@ -188,5 +190,6 @@ function showResult(){
     }
 }
 </script>
+
 </body>
 </html>
