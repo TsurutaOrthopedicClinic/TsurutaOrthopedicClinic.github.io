@@ -176,28 +176,37 @@ function answer(a){
 function showResult(){
     show("result");
 
-    var p=scoreN*10;
+    var p = scoreN * 10;
     var resultText = p >= 80 ? "合格" : "不合格";
 
-    var formUrl =
-        "https://docs.google.com/forms/d/e/1FAIpQLScEpwcPaGIbH0ZGEOzopUD8gb1_J1NzLcOleT8voxW03XOwpQ/viewform?embedded=true" +
-        "&entry.1558472501=" + encodeURIComponent(p) +
-        "&entry.26495839=" + encodeURIComponent(resultText);
+    document.getElementById("score").innerHTML =
+        "<strong>" + scoreN + " / 10問（" + p + "点）</strong>";
 
-    document.getElementById("googleForm").src = formUrl;
+    var m = document.getElementById("resultmsg");
 
-    document.getElementById("score").innerHTML=
-        "<strong>"+scoreN+" / 10問（"+p+"点）</strong>";
+    if(p >= 80){
 
-    var m=document.getElementById("resultmsg");
+        m.innerHTML =
+            '<p class="good">合格基準（80点）を満たしました。</p>';
 
-    if(p>=80){
-        m.innerHTML='<p class="good">合格基準（80点）を満たしました。</p>';
+        // Googleフォームの事前入力URLを作成
+        var formUrl =
+            "https://docs.google.com/forms/d/e/1FAIpQLScEpwcPaGIbH0ZGEOzopUD8gb1_J1NzLcOleT8voxW03XOwpQ/viewform?embedded=true" +
+            "&entry.1558472501=" + encodeURIComponent(p) +
+            "&entry.26495839=" + encodeURIComponent(resultText);
+
+        // 先にフォームを表示
         document.getElementById("info").classList.remove("hidden");
+
+        // フォームURLを設定
+        document.getElementById("googleForm").src = formUrl;
+
     }else{
-        m.innerHTML=
-            '<p class="bad">80点未満です。研修内容をもう一度確認して再受講してください。</p>'+
+
+        m.innerHTML =
+            '<p class="bad">80点未満です。研修内容をもう一度確認して再受講してください。</p>' +
             '<button onclick="start()">もう一度受講する</button>';
+
     }
 }
 </script>
