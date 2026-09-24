@@ -151,7 +151,7 @@ select{
 </head>
 
 <body>
-
+<iframe name="submitFrame" id="submitFrame" style="display:none;"></iframe>
 <header>
 <div class="wrap">
 <span class="badge">病院職員向け</span>
@@ -324,52 +324,10 @@ autocomplete="name"
 </div>
 
 
-<button onclick="openGoogleForm()">
-受講記録を送信する
-</button>
+<button id="submitRecordButton" onclick="submitRecord()">受講記録を送信する</button>
 
 </div>
 
-
-</section>
-
-
-<!-- =========================
-     Googleフォーム画面
-========================= -->
-
-<section id="formSection" class="card hidden">
-
-<h2>受講記録の送信</h2>
-
-<div class="send-notice">
-
-<strong>受講記録を確認してください</strong>
-
-<p style="margin:8px 0 0;">
-氏名・所属部署・得点・合否は自動的に入力されています。<br>
-内容を確認して、問題がなければGoogleフォームの
-<strong>「送信」</strong>を押してください。
-</p>
-
-</div>
-
-
-<iframe
-id="googleForm"
-src=""
-width="100%"
-height="3244"
-frameborder="0"
-marginheight="0"
-marginwidth="0">
-読み込んでいます…
-</iframe>
-
-
-<button onclick="finishTraining()">
-受講記録を送信しました → 受講完了
-</button>
 
 </section>
 
@@ -790,76 +748,52 @@ function restartTraining(){
 
 }
 
+const GAS_URL = "https://script.google.com/macros/s/AKfycbzcdvX23KkXxXGEnXKoFLNNHCKIXGB52HHSMD6x6R7zmtDLjaDuCoYp4AKNRuho6GGmZg/exec";
 
-/* ==========================================
-   Googleフォームを開く
-========================================== */
+function submitRecord(){
 
-function openGoogleForm(){
+  var button = document.getElementById("submitRecordButton");
 
-    var name =
-        document.getElementById("userName").value;
+  if(button.disabled){
+    return;
+  }
 
-    var department =
-        document.getElementById("department").value;
+  button.disabled = true;
+  button.textContent = "送信中...";
 
-    var p =
-        scoreN*10;
+  var name = document.getElementById("userName").value.trim();
+  var department = document.getElementById("department").value;
+  var score = scoreN * 10;
+  var resultText = score >= 80 ? "合格" : "不合格";
 
-    var resultText =
-        p>=80 ? "合格" : "不合格";
+  var form = document.createElement("form");
 
+  form.method = "POST";
+  form.action = GAS_URL;
+  form.target = "submitFrame";
 
-    var formUrl =
+  function addHidden(name, value){
+    var input = document.createElement("input");
+    input.type = "hidden";
+    input.name = name;
+    input.value = value;
+    form.appendChild(input);
+  }
 
-        "https://docs.google.com/forms/d/e/1FAIpQLScEpwcPaGIbH0ZGEOzopUD8gb1_J1NzLcOleT8voxW03XOwpQ/viewform" +
+  addHidden("name", name);
+  addHidden("department", department);
+  addHidden("score", score);
+  addHidden("result", resultText);
 
-        "?usp=pp_url" +
+  document.body.appendChild(form);
 
-        "&entry.959005524="+
-        encodeURIComponent(name) +
+  form.submit();
 
-        "&entry.1484111667="+
-        encodeURIComponent(department) +
+  form.remove();
 
-        "&entry.1558472501="+
-        encodeURIComponent(p) +
-
-        "&entry.26495839="+
-        encodeURIComponent(resultText) +
-
-        "&embedded=true";
-
-
-    document
-    .getElementById("googleForm")
-    .src=formUrl;
-
-
-    show("formSection");
-
-}
-
-
-/* ==========================================
-   受講完了
-========================================== */
-
-function finishTraining(){
-
-    var ok =
-        confirm(
-            "Googleフォームの「送信」ボタンを押しましたか？\n\n"+
-            "送信済みの場合は「OK」を押してください。"
-        );
-
-
-    if(ok){
-
-        show("done");
-
-    }
-
+  setTimeout(function(){
+    show("done");
+  }, 1000);
 }
 
 </script>
