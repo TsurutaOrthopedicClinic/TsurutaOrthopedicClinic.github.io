@@ -33,7 +33,7 @@ input{width:100%;box-sizing:border-box;padding:12px;border:1px solid #cbd5e1;bor
 <h2>この研修について</h2>
 <p>医療機関では、診療情報・検査結果・連絡先など、特に慎重な取扱いが必要な情報を扱います。この研修では、日常業務で起こりやすい事例を中心に確認します。</p>
 <ul><li>所要時間：約10～15分</li><li>確認テスト：10問</li><li>合格基準：80点以上</li></ul>
-<button onclick="start()">研修を開始する</button>
+<button id="startButton">研修を開始する</button>
 <p class="small">※この試作品では受講情報を外部へ送信・保存しません。</p>
 </section>
 
@@ -117,6 +117,8 @@ function start(){
     show("lesson");
     renderLesson();
 }
+
+document.getElementById("startButton").addEventListener("click", start);
 
 function renderLesson(){
     document.getElementById("ltitle").textContent=lessons[li][0];
