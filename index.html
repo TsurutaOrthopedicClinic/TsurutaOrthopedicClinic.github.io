@@ -152,6 +152,7 @@ select{
 
 <body>
 <iframe name="submitFrame" id="submitFrame" style="display:none;"></iframe>
+    
 <header>
 <div class="wrap">
 <span class="badge">病院職員向け</span>
@@ -774,66 +775,70 @@ function submitRecord(){
   var resultText = score >= 80 ? "合格" : "不合格";
 
 
-  // ------------------------------------------
-  // 受講完了画面への切り替えを先に予約
-  // ------------------------------------------
+  // ==========================================
+  // 送信用フォームを作成
+  // ==========================================
+
+  var form = document.createElement("form");
+
+  form.method = "POST";
+  form.action = GAS_URL;
+  form.target = "submitFrame";
+
+  function addHidden(name, value){
+
+    var input = document.createElement("input");
+
+    input.type = "hidden";
+    input.name = name;
+    input.value = value;
+
+    form.appendChild(input);
+  }
+
+
+  // ==========================================
+  // データをセット
+  // ==========================================
+
+  addHidden("year", TRAINING_YEAR);
+  addHidden("trainingName", TRAINING_NAME);
+  addHidden("name", name);
+  addHidden("department", department);
+  addHidden("score", score);
+  addHidden("result", resultText);
+
+
+  // ==========================================
+  // ページにフォームを追加
+  // ==========================================
+
+  document.body.appendChild(form);
+
+
+  // ==========================================
+  // まず受講完了画面を表示
+  // ==========================================
+
+  show("done");
+
+
+  // ==========================================
+  // 少し待ってからGoogleへ送信
+  // ==========================================
 
   setTimeout(function(){
 
-    show("done");
-
-  }, 1500);
-
-
-  // ------------------------------------------
-  // Google Apps Scriptへ送信
-  // ------------------------------------------
-
-  try {
-
-    var form = document.createElement("form");
-
-    form.method = "POST";
-    form.action = GAS_URL;
-    form.target = "submitFrame";
-
-    function addHidden(fieldName, fieldValue){
-
-      var input = document.createElement("input");
-
-      input.type = "hidden";
-      input.name = fieldName;
-      input.value = fieldValue;
-
-      form.appendChild(input);
-    }
-
-    addHidden("year", TRAINING_YEAR);
-    addHidden("trainingName", TRAINING_NAME);
-    addHidden("name", name);
-    addHidden("department", department);
-    addHidden("score", score);
-    addHidden("result", resultText);
-
-    document.body.appendChild(form);
-
     form.submit();
 
-    document.body.removeChild(form);
+    // フォームは送信後に削除
+    setTimeout(function(){
+      if(form.parentNode){
+        form.parentNode.removeChild(form);
+      }
+    }, 500);
 
-  } catch(error) {
-
-    console.error(error);
-
-    alert(
-      "受講記録の送信処理でエラーが発生しました。\n\n" +
-      error.message
-    );
-
-    button.disabled = false;
-    button.textContent = "受講記録を送信する";
-
-  }
+  }, 300);
 
 }
 </script>
