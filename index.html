@@ -31,12 +31,33 @@ input{width:100%;box-sizing:border-box;padding:12px;border:1px solid #cbd5e1;bor
 <main class="wrap">
 <section id="home" class="card">
 <h2>この研修について</h2>
-<p>医療機関では、診療情報・検査結果・連絡先など、特に慎重な取扱いが必要な情報を扱います。この研修では、日常業務で起こりやすい事例を中心に確認します。</p>
-<ul><li>所要時間：約10～15分</li><li>確認テスト：10問</li><li>合格基準：80点以上</li></ul>
-<button id="startButton">研修を開始する</button>
-<p class="small">
-※合格後、氏名・所属部署・得点・結果をGoogleフォームから送信し、受講記録として保存します。
+
+<p>
+医療機関では、診療情報・検査結果・連絡先など、
+特に慎重な取扱いが必要な情報を扱います。
+この研修では、日常業務で起こりやすい事例を中心に確認します。
 </p>
+
+<ul>
+<li>所要時間：約10～15分</li>
+<li>確認テスト：10問</li>
+<li>合格基準：80点以上</li>
+</ul>
+
+<h3>受講者情報</h3>
+
+<label for="userName">氏名</label>
+<input type="text" id="userName" placeholder="氏名を入力してください">
+
+<label for="department">所属部署</label>
+<input type="text" id="department" placeholder="所属部署を入力してください">
+
+<button id="startButton">研修を開始する</button>
+
+<p class="small">
+※氏名・所属部署を入力してから研修を開始してください。
+</p>
+
 </section>
 
 <section id="lesson" class="card hidden">
@@ -64,17 +85,17 @@ input{width:100%;box-sizing:border-box;padding:12px;border:1px solid #cbd5e1;bor
 <div style="background:#fff4d6;border-left:5px solid #f0a000;padding:15px;margin:20px 0;border-radius:8px;">
 <strong>⚠️ 重要：この画面だけでは研修完了ではありません</strong>
 <p style="margin:8px 0 0;">
-受講記録の入力と送信が必要です。<br>
-下のフォームに<strong>氏名・所属部署を入力して「送信」</strong>してください。
+受講記録の送信が必要です。<br>
+下のフォームの内容を確認し、<strong>「送信」</strong>を押してください。
 </p>
 </div>
 
-<h3>① 受講記録を入力してください</h3>
+<h3>① 受講記録を確認してください</h3>
 
 <p>
-得点と合否は自動的に入力されています。<br>
-<strong>氏名と所属部署を入力してください。</strong>
-</p>
+氏名・所属部署・得点・合否は自動的に入力されています。<br>
+内容を確認して、問題がなければ下のフォームの<strong>「送信」</strong>を押してください。
+</p>>
 
 <iframe
 id="googleForm"
@@ -140,6 +161,22 @@ function show(id){
 }
 
 function start(){
+
+    var name = document.getElementById("userName").value.trim();
+    var department = document.getElementById("department").value.trim();
+
+    if(name === ""){
+        alert("氏名を入力してください。");
+        document.getElementById("userName").focus();
+        return;
+    }
+
+    if(department === ""){
+        alert("所属部署を入力してください。");
+        document.getElementById("department").focus();
+        return;
+    }
+
     li=0;
     show("lesson");
     renderLesson();
@@ -217,9 +254,14 @@ function showResult(){
 
         document.getElementById("info").classList.remove("hidden");
 
+        var name = document.getElementById("userName").value;
+        var department = document.getElementById("department").value;
+        
         var formUrl =
             "https://docs.google.com/forms/d/e/1FAIpQLScEpwcPaGIbH0ZGEOzopUD8gb1_J1NzLcOleT8voxW03XOwpQ/viewform" +
             "?usp=pp_url" +
+            "&entry.959005524=" + encodeURIComponent(name) +
+            "&entry.1484111667=" + encodeURIComponent(department) +
             "&entry.1558472501=" + encodeURIComponent(p) +
             "&entry.26495839=" + encodeURIComponent(resultText) +
             "&embedded=true";
