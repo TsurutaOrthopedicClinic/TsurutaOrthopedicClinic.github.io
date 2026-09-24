@@ -773,6 +773,22 @@ function submitRecord(){
   var score = scoreN * 10;
   var resultText = score >= 80 ? "合格" : "不合格";
 
+
+  // ------------------------------------------
+  // 受講完了画面への切り替えを先に予約
+  // ------------------------------------------
+
+  setTimeout(function(){
+
+    show("done");
+
+  }, 1500);
+
+
+  // ------------------------------------------
+  // Google Apps Scriptへ送信
+  // ------------------------------------------
+
   try {
 
     var form = document.createElement("form");
@@ -817,21 +833,9 @@ function submitRecord(){
     button.disabled = false;
     button.textContent = "受講記録を送信する";
 
-    return;
   }
 
-  /*
-   * Google Apps Scriptへの送信後、
-   * 受講完了画面へ移動
-   */
-  setTimeout(function(){
-
-    show("done");
-
-  }, 1500);
-
 }
-
 </script>
 
 </body>
