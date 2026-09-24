@@ -177,6 +177,14 @@ function showResult(){
     show("result");
 
     var p=scoreN*10;
+    var resultText = p >= 80 ? "合格" : "不合格";
+
+    var formUrl =
+        "https://docs.google.com/forms/d/e/1FAIpQLScEpwcPaGIbH0ZGEOzopUD8gb1_J1NzLcOleT8voxW03XOwpQ/viewform?embedded=true" +
+        "&entry.1558472501=" + encodeURIComponent(p) +
+        "&entry.26495839=" + encodeURIComponent(resultText);
+
+    document.getElementById("googleForm").src = formUrl;
 
     document.getElementById("score").innerHTML=
         "<strong>"+scoreN+" / 10問（"+p+"点）</strong>";
