@@ -750,6 +750,13 @@ function restartTraining(){
 
 const GAS_URL = "https://script.google.com/macros/s/AKfycbzcdvX23KkXxXGEnXKoFLNNHCKIXGB52HHSMD6x6R7zmtDLjaDuCoYp4AKNRuho6GGmZg/exec";
 
+// ==========================================
+// 研修情報
+// ==========================================
+
+const TRAINING_YEAR = "2026年度";
+const TRAINING_NAME = "個人情報保護研修";
+
 function submitRecord(){
 
   var button = document.getElementById("submitRecordButton");
@@ -780,8 +787,8 @@ function submitRecord(){
     form.appendChild(input);
   }
 
-  aaddHidden("year", "2026年度");
-　addHidden("trainingName", "個人情報保護研修");
+  addHidden("year", TRAINING_YEAR);
+  addHidden("trainingName", TRAINING_NAME);
   addHidden("name", name);
   addHidden("department", department);
   addHidden("score", score);
