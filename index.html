@@ -169,12 +169,11 @@ function answer(a){
     if(qi<qs.length){
         renderQuiz();
     }else{
-        ();
+        showResult();
     }
 }
 
 function showResult(){
-
     show("result");
 
     var p = scoreN * 10;
@@ -201,12 +200,11 @@ function showResult(){
 
         document.getElementById("googleForm").src = formUrl;
 
-    }else{
+    } else {
 
         m.innerHTML =
             '<p class="bad">80点未満です。研修内容をもう一度確認して再受講してください。</p>' +
             '<button onclick="start()">もう一度受講する</button>';
-
     }
 }
 </script>
