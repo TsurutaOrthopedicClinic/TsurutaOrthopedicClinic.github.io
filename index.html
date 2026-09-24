@@ -18,7 +18,16 @@ button{width:100%;padding:14px;border:0;border-radius:10px;background:#174a7e;co
 .progress{height:8px;background:#dde5ee;border-radius:8px;overflow:hidden}.bar{height:100%;background:#2f7fbf;width:0}
 .small{font-size:13px;color:#64748b}
 .good{color:#18794e;font-weight:bold}.bad{color:#b42318;font-weight:bold}
-input{width:100%;box-sizing:border-box;padding:12px;border:1px solid #cbd5e1;border-radius:8px;margin:6px 0 12px;font-size:16px}
+input,select{
+width:100%;
+box-sizing:border-box;
+padding:12px;
+border:1px solid #cbd5e1;
+border-radius:8px;
+margin:6px 0 12px;
+font-size:16px;
+background:white;
+}
 </style>
 </head>
 <body>
@@ -50,7 +59,20 @@ input{width:100%;box-sizing:border-box;padding:12px;border:1px solid #cbd5e1;bor
 <input type="text" id="userName" placeholder="氏名を入力してください">
 
 <label for="department">所属部署</label>
-<input type="text" id="department" placeholder="所属部署を入力してください">
+<select id="department">
+    <option value="">所属部署を選択してください</option>
+    <option value="医師">医師</option>
+    <option value="看護師">看護部</option>
+    <option value="看護師">病棟</option>
+    <option value="看護師">手術室・中材</option>
+    <option value="看護師">外来</option>
+    <option value="リハビリテーション科">リハビリテーション科</option>
+    <option value="放射線科">放射線科</option>
+    <option value="放射線科">薬剤科</option>
+    <option value="医事課">医事課</option>
+    <option value="総務課">事務</option>
+    <option value="その他">その他</option>
+</select>
 
 <button id="startButton">研修を開始する</button>
 
