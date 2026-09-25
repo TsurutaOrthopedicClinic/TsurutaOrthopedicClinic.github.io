@@ -216,7 +216,7 @@ async function loadPDF() {
 
       const viewport = page.getViewport({scale: 1});
 
-      const viewerWidth = viewer.clientWidth - 20;
+      const viewerWidth = Math.max(viewer.clientWidth - 20, 300);
 
       const scale = viewerWidth / viewport.width;
 
@@ -252,7 +252,6 @@ async function loadPDF() {
   }
 }
 
-window.addEventListener("load", loadPDF);
 </script>
   
 <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
@@ -556,14 +555,23 @@ function setStaff(code){
 /* ==========================================
    研修開始
 ========================================== */
-function startTraining(){
+let pdfLoaded = false;
+
+async function startTraining(){
 
   if(staffId === ""){
     alert("先に個人QRコードを読み取ってください。");
     return;
   }
 
+  // 先に研修画面を表示
   show("training");
+
+  // 画面が表示されてからPDFを読み込む
+  if(!pdfLoaded){
+    pdfLoaded = true;
+    await loadPDF();
+  }
 }
 
 
