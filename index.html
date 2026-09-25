@@ -205,7 +205,7 @@ QRコードを読み取る
 <input type="file" id="qrFileInput" accept="image/*" style="display:none" onchange="scanQrFromPhoto(event)">
 
 <div id="reader" class="hidden" style="margin-top:15px;"></div>
-<div id="qr-reader-photo" style="width:1px;height:1px;overflow:hidden;position:absolute;left:-9999px;top:-9999px;"></div>
+<div id="qr-reader-photo" style="display:none;margin-top:15px;"></div>
 
 <div id="scanStatus" class="small" style="margin-top:10px;">
 QRコードを読み取ると、職員コードを自動取得します。
@@ -712,41 +712,65 @@ function isValidStaffId(value){
     return /^\d{7}$/.test(String(value).trim());
 }
 
+function showQrStatus(message){
+  const el = document.getElementById("scanStatus");
+  if (el) el.textContent = message;
+}
+
 async function scanQrFromPhoto(event) {
   const fileInput = event.target;
   const file = fileInput.files && fileInput.files[0];
   if (!file) return;
 
   const photoBtn = document.getElementById("photoQrButton");
-  const startBtn = document.getElementById("scanButton");
+  const cameraBtn = document.getElementById("scanButton");
+  const photoReader = document.getElementById("qr-reader-photo");
 
   photoBtn.disabled = true;
-  startBtn.disabled = true;
-  showQrStatus("写真からQRコードを読み取っています…");
+  cameraBtn.disabled = true;
+  photoReader.style.display = "block";
+  photoReader.innerHTML = "";
+  showQrStatus("写真を解析しています…少しお待ちください。");
+
+  let photoScanner = null;
 
   try {
-    // 写真用のQRリーダーを作成
-    const photoScanner = new Html5Qrcode("qr-reader-photo");
-
-    const decodedText = await photoScanner.scanFile(file, true);
-    try { await photoScanner.clear(); } catch (e) {}
-
-    if (/^\d{7}$/.test(decodedText.trim())) {
-      staffId = decodedText.trim();
-      document.getElementById("staffIdDisplay").textContent = staffId;
-      document.getElementById("scanStatus").textContent =
-        "QRコードを確認しました。下の「研修を開始する」を押してください。";
-      document.getElementById("startButton").disabled = false;
-      document.getElementById("qrReader").style.display = "none";
-    } else {
-      showQrStatus("このQRコードは職員番号（7桁）ではありません。");
+    if (typeof Html5Qrcode === "undefined") {
+      throw new Error("Html5Qrcode が読み込まれていません。");
     }
+
+    photoScanner = new Html5Qrcode("qr-reader-photo");
+
+    // 写真からQRを解析します。
+    // showImage=true にして、選択した画像を一時表示すると
+    // iPhone/Androidでも解析が安定しやすくなります。
+    const decodedText = await photoScanner.scanFile(file, true);
+    const code = String(decodedText).trim();
+
+    if (!/^\d{7}$/.test(code)) {
+      throw new Error("7桁の職員コードではありません。");
+    }
+
+    staffId = code;
+    document.getElementById("staffIdDisplay").textContent = staffId;
+    document.getElementById("staffInfo").classList.remove("hidden");
+    document.getElementById("startButton").disabled = false;
+    showQrStatus("QRコードを確認しました。下の「研修を開始する」を押してください。");
+
   } catch (err) {
-    console.error(err);
-    showQrStatus("写真からQRコードを読み取れませんでした。QRコードがはっきり写った写真を選んでください。");
+    console.error("写真QR読み取りエラー:", err);
+    showQrStatus(
+      "写真からQRコードを読み取れませんでした。QRコード全体が写っている、" +
+      "ぼやけていない写真を選んでください。"
+    );
   } finally {
+    try {
+      if (photoScanner) await photoScanner.clear();
+    } catch (e) {}
+    photoReader.innerHTML = "";
+    photoReader.style.display = "none";
     photoBtn.disabled = false;
-    startBtn.disabled = false;
+    cameraBtn.disabled = false;
     fileInput.value = "";
   }
 }
@@ -828,13 +852,7 @@ async function startQrScanner(){
     }
 }
 
-document
-.getElementById("scanButton")
-.addEventListener("click", startQrScanner);
 
-document
-.getElementById("startButton")
-.addEventListener("click", start);
 
 
 /* ==========================================
