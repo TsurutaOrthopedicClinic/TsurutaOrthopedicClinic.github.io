@@ -31,11 +31,26 @@ button:disabled{opacity:.5;cursor:not-allowed}
 .notice{background:#fff4d6;border-left:5px solid #f0a000;padding:15px;margin:20px 0;border-radius:8px}
 .result-score{font-size:24px;margin:15px 0}
 .pdfbox{
+  height:70vh;
+  max-height:800px;
   margin:15px 0;
   padding:10px;
   background:#e2e8f0;
   border:1px solid #cbd5e1;
   border-radius:10px;
+  overflow-y:auto;
+  overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+  touch-action:pan-y;
+  overscroll-behavior:contain;
+  box-sizing:border-box;
+}
+
+#pdfViewer canvas{
+  display:block;
+  max-width:100%;
+  height:auto;
+  margin:0 auto;
 }
 
 #pdfViewer canvas{
