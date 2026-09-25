@@ -337,6 +337,7 @@ const qs = [
    状態
 ========================================== */
 let staffId = "";
+let staffName = "";
 let qi = 0;
 let scoreN = 0;
 
@@ -574,7 +575,7 @@ function setStaffName(){
     return;
   }
 
-  staffId = name;
+  staffName = name;
 
   document.getElementById("staffIdDisplay").textContent =
     "氏名：" + name;
@@ -593,10 +594,10 @@ function setStaffName(){
 ========================================== */
 async function startTraining(){
 
-  if(staffId === ""){
-    alert("先にQRコードを読み取るか、氏名を入力してください。");
-    return;
-  }
+  if(staffId === "" && staffName === ""){
+  alert("先にQRコードを読み取るか、氏名を入力してください。");
+  return;
+}
 
   show("training");
 
@@ -823,9 +824,14 @@ function submitRecord(){
   );
 
   addHidden(
-    "staffId",
-    staffId
-  );
+  "staffId",
+  staffId
+);
+
+addHidden(
+  "staffName",
+  staffName
+);
 
   addHidden(
     "score",
