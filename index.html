@@ -707,7 +707,47 @@ function isValidStaffId(value){
     return /^\d{7}$/.test(String(value).trim());
 }
 
-async function startQrScanner(){
+async 
+async function scanQrFromPhoto(event) {
+  const fileInput = event.target;
+  const file = fileInput.files && fileInput.files[0];
+  if (!file) return;
+
+  const photoBtn = document.getElementById("photoQrBtn");
+  const startBtn = document.getElementById("startQrBtn");
+
+  photoBtn.disabled = true;
+  startBtn.disabled = true;
+  showQrStatus("写真からQRコードを読み取っています…");
+
+  try {
+    // 写真用のQRリーダーを作成
+    const photoScanner = new Html5Qrcode("qr-reader-photo");
+
+    const decodedText = await photoScanner.scanFile(file, true);
+    await photoScanner.clear();
+
+    if (/^\d{7}$/.test(decodedText.trim())) {
+      staffId = decodedText.trim();
+      document.getElementById("staffIdDisplay").textContent = staffId;
+      document.getElementById("qrStatus").textContent =
+        "QRコードを確認しました。下の「研修を開始する」を押してください。";
+      document.getElementById("startTrainingBtn").disabled = false;
+      document.getElementById("qrReader").style.display = "none";
+    } else {
+      showQrStatus("このQRコードは職員番号（7桁）ではありません。");
+    }
+  } catch (err) {
+    console.error(err);
+    showQrStatus("写真からQRコードを読み取れませんでした。QRコードがはっきり写った写真を選んでください。");
+  } finally {
+    photoBtn.disabled = false;
+    startBtn.disabled = false;
+    fileInput.value = "";
+  }
+}
+
+function startQrScanner(){
 
     const reader = document.getElementById("reader");
     const status = document.getElementById("scanStatus");
