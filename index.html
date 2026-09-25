@@ -190,68 +190,33 @@ select{
 </ul>
 
 
-<h3>受講者情報</h3>
+<h3>受講者認証</h3>
 
-<label for="userName">氏名</label>
+<p>
+個人のタイムカード用QRコードを読み取ってください。
+</p>
 
-<input
-type="text"
-id="userName"
-placeholder="氏名を入力してください"
-autocomplete="name"
->
+<button type="button" id="scanButton">
+QRコードを読み取る
+</button>
 
+<div id="reader" class="hidden" style="margin-top:15px;"></div>
 
-<label for="department">所属部署</label>
+<div id="scanStatus" class="small" style="margin-top:10px;">
+QRコードを読み取ると、職員コードを自動取得します。
+</div>
 
-<select id="department">
+<div id="staffInfo" class="notice hidden">
+<strong>職員コード：</strong>
+<span id="staffIdDisplay"></span>
+</div>
 
-<option value="">
-所属部署を選択してください
-</option>
-
-<option value="医師">
-医師
-</option>
-
-<option value="看護師">
-看護師
-</option>
-
-<option value="リハビリテーション科">
-リハビリテーション科
-</option>
-
-<option value="放射線科">
-放射線科
-</option>
-
-<option value="検査科">
-検査科
-</option>
-
-<option value="医事課">
-医事課
-</option>
-
-<option value="総務課">
-総務課
-</option>
-
-<option value="その他">
-その他
-</option>
-
-</select>
-
-
-<button id="startButton">
+<button id="startButton" disabled>
 研修を開始する
 </button>
 
-
 <p class="small">
-※氏名・所属部署を入力してから研修を開始してください。
+※職員コードは7桁のコードを使用します。氏名・部署は入力しません。
 </p>
 
 </section>
@@ -363,6 +328,8 @@ autocomplete="name"
 
 </main>
 
+
+<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 
 <script>
 
@@ -481,6 +448,7 @@ const qs=[
 let li=0;
 let qi=0;
 let scoreN=0;
+let staffId="";
 
 
 /* ==========================================
@@ -510,41 +478,16 @@ function show(id){
 
 function start(){
 
-    var name =
-        document.getElementById("userName").value.trim();
-
-    var department =
-        document.getElementById("department").value;
-
-
-    if(name === ""){
-
-        alert("氏名を入力してください。");
-
-        document.getElementById("userName").focus();
-
+    if(staffId === ""){
+        alert("先に個人QRコードを読み取ってください。");
         return;
     }
-
-
-    if(department === ""){
-
-        alert("所属部署を選択してください。");
-
-        document.getElementById("department").focus();
-
-        return;
-    }
-
 
     li=0;
-
     qi=0;
-
     scoreN=0;
 
     show("lesson");
-
     renderLesson();
 }
 
@@ -552,11 +495,6 @@ function start(){
 /* ==========================================
    開始ボタン
 ========================================== */
-
-document
-.getElementById("startButton")
-.addEventListener("click",start);
-
 
 /* ==========================================
    研修表示
@@ -758,6 +696,107 @@ const GAS_URL = "https://script.google.com/macros/s/AKfycbzcdvX23KkXxXGEnXKoFLNN
 const TRAINING_YEAR = "2026年度";
 const TRAINING_NAME = "個人情報保護研修";
 
+/* ==========================================
+   個人QRコード認証
+   ========================================== */
+
+let qrScanner = null;
+let scannerRunning = false;
+
+function isValidStaffId(value){
+    return /^\d{7}$/.test(String(value).trim());
+}
+
+async function startQrScanner(){
+
+    const reader = document.getElementById("reader");
+    const status = document.getElementById("scanStatus");
+    const startButton = document.getElementById("startButton");
+
+    if(typeof Html5Qrcode === "undefined"){
+        alert("QRコード読み取り機能を読み込めませんでした。インターネット接続を確認してください。");
+        return;
+    }
+
+    if(scannerRunning){
+        return;
+    }
+
+    reader.classList.remove("hidden");
+    status.textContent = "カメラを起動しています。QRコードを画面に映してください。";
+
+    qrScanner = new Html5Qrcode("reader");
+    scannerRunning = true;
+
+    try{
+
+        await qrScanner.start(
+            { facingMode: "environment" },
+            {
+                fps: 10,
+                qrbox: { width: 250, height: 250 }
+            },
+            async function(decodedText){
+
+                const code = String(decodedText).trim();
+
+                if(!isValidStaffId(code)){
+                    status.textContent = "7桁の職員コードではありません。もう一度QRコードを読み取ってください。";
+                    return;
+                }
+
+                staffId = code;
+
+                document.getElementById("staffIdDisplay").textContent = staffId;
+                document.getElementById("staffInfo").classList.remove("hidden");
+                startButton.disabled = false;
+                status.textContent = "認証しました。下の「研修を開始する」を押してください。";
+
+                try{
+                    await qrScanner.stop();
+                }catch(e){}
+
+                try{
+                    qrScanner.clear();
+                }catch(e){}
+
+                scannerRunning = false;
+                reader.classList.add("hidden");
+            },
+            function(errorMessage){
+                // QR未検出時のエラーは画面に表示しない
+            }
+        );
+
+    }catch(error){
+
+        scannerRunning = false;
+
+        try{
+            qrScanner.clear();
+        }catch(e){}
+
+        reader.classList.add("hidden");
+
+        console.error(error);
+        alert("カメラを起動できませんでした。ブラウザのカメラ使用許可を確認してください。");
+        status.textContent = "QRコード読み取りを開始できませんでした。";
+    }
+}
+
+document
+.getElementById("scanButton")
+.addEventListener("click", startQrScanner);
+
+document
+.getElementById("startButton")
+.addEventListener("click", start);
+
+
+/* ==========================================
+   受講記録送信
+   ========================================== */
+
 function submitRecord(){
 
   var button = document.getElementById("submitRecordButton");
@@ -769,8 +808,6 @@ function submitRecord(){
   button.disabled = true;
   button.textContent = "送信中...";
 
-  var name = document.getElementById("userName").value.trim();
-  var department = document.getElementById("department").value;
   var score = scoreN * 10;
   var resultText = score >= 80 ? "合格" : "不合格";
 
@@ -803,8 +840,7 @@ function submitRecord(){
 
   addHidden("year", TRAINING_YEAR);
   addHidden("trainingName", TRAINING_NAME);
-  addHidden("name", name);
-  addHidden("department", department);
+  addHidden("staffId", staffId);
   addHidden("score", score);
   addHidden("result", resultText);
 
