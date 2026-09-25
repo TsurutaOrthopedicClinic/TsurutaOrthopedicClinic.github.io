@@ -1,274 +1,790 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>2026年度 個人情報保護研修</title>
-<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:"Meiryo","Noto Sans JP",sans-serif;background:#eef3f7;color:#263238}
-header{background:#1769aa;color:white;padding:18px 20px;text-align:center}
-header h1{margin:0;font-size:24px}
-main{max-width:900px;margin:20px auto;padding:0 14px}
-.card{background:white;border-radius:14px;padding:24px;box-shadow:0 3px 12px #0001;margin-bottom:18px}
-button{border:0;border-radius:10px;padding:13px 20px;font-size:16px;cursor:pointer;background:#1769aa;color:white;margin:5px}
-button.secondary{background:#607d8b}
-button.success{background:#2e7d32}
-button:disabled{background:#b0bec5;cursor:not-allowed}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif;
+  margin:0;background:#f4f7fb;color:#233044;line-height:1.7
+}
+header{background:#174a7e;color:white;padding:28px 20px}
+.wrap{max-width:900px;margin:auto;padding:20px}
+.card{background:white;border-radius:14px;padding:22px;margin:16px 0;box-shadow:0 2px 10px #00000012}
+h1{font-size:25px;margin:0 0 8px}
+h2{font-size:20px;color:#174a7e}
+h3{margin-top:24px}
+.badge{display:inline-block;background:#e8f2ff;color:#174a7e;border-radius:20px;padding:5px 10px;font-size:13px}
+button{width:100%;padding:14px;border:0;border-radius:10px;background:#174a7e;color:#fff;font-size:16px;margin-top:10px;cursor:pointer}
+button:hover{opacity:.9}
+button:disabled{opacity:.5;cursor:not-allowed}
+.choice{background:#f1f5f9;color:#233044;text-align:left;font-size:18px}
+.choice:hover{background:#e4edf7}
 .hidden{display:none!important}
-.center{text-align:center}
-#reader{max-width:500px;margin:15px auto}
-.staff{font-size:20px;font-weight:bold;padding:12px;background:#e3f2fd;border-radius:10px}
-.slide-title{font-size:28px;color:#1769aa;margin:0 0 15px}
-.slide-body{font-size:19px;line-height:1.9}
-.point{margin-top:20px;padding:15px;background:#fff8e1;border-left:6px solid #ffb300;border-radius:8px;font-size:18px}
-.progress-wrap{height:10px;background:#dce4e8;border-radius:10px;overflow:hidden;margin:12px 0 20px}
-.progress{height:100%;background:#1769aa;width:0}
-.slide-no{text-align:right;color:#607d8b}
-.question{font-size:20px;line-height:1.7;font-weight:bold}
-.choice{display:block;width:100%;max-width:500px;margin:12px auto;padding:16px;font-size:18px}
-.result{font-size:24px;font-weight:bold;padding:20px;border-radius:10px}
-.pass{background:#e8f5e9;color:#2e7d32}
-.fail{background:#ffebee;color:#c62828}
-.ref{font-size:14px;line-height:1.7;color:#455a64}
-ul{line-height:1.9}
+.progress{height:8px;background:#dde5ee;border-radius:8px;overflow:hidden}
+.bar{height:100%;background:#2f7fbf;width:0}
+.small{font-size:13px;color:#64748b}
+.good{color:#18794e;font-weight:bold}
+.bad{color:#b42318;font-weight:bold}
+.notice{background:#fff4d6;border-left:5px solid #f0a000;padding:15px;margin:20px 0;border-radius:8px}
+.result-score{font-size:24px;margin:15px 0}
+.pdfbox{height:720px;margin:15px 0}
+.pdfbox iframe{width:100%;height:100%;border:1px solid #cbd5e1;border-radius:10px}
+.question{font-size:19px;font-weight:bold;line-height:1.8;margin:22px 0}
+.status{margin-top:10px}
 </style>
 </head>
+
 <body>
-<header><h1>2026年度 個人情報保護研修</h1></header>
+<iframe name="submitFrame" id="submitFrame" style="display:none;"></iframe>
 
-<main>
-<section id="home" class="card center">
-<h2>受講者確認</h2>
-<p>QRコードを読み取って受講を開始してください。</p>
-<button onclick="startCamera()">QRコードを読み取る</button>
-<button class="secondary" onclick="document.getElementById('qrFile').click()">写真から読み取る</button>
-<input id="qrFile" type="file" accept="image/*" class="hidden" onchange="scanFile(this)">
-<div id="reader"></div>
-<div id="staffArea" class="staff">個人コード：<span id="staffId">未取得</span></div>
-<br>
-<button id="startBtn" disabled onclick="startTraining()">研修を開始する</button>
-</section>
-
-<section id="training" class="card hidden">
-<div class="slide-no"><span id="slideNo"></span> / <span id="slideTotal"></span></div>
-<div class="progress-wrap"><div id="progress" class="progress"></div></div>
-<h2 id="slideTitle" class="slide-title"></h2>
-<div id="slideBody" class="slide-body"></div>
-<div id="slidePoint" class="point"></div>
-<div class="center">
-<button id="prevBtn" class="secondary" onclick="prevSlide()">← 前へ</button>
-<button id="nextBtn" onclick="nextSlide()">次へ →</button>
+<header>
+<div class="wrap">
+<span class="badge">病院職員向け</span>
+<h1>2026年度 個人情報保護研修</h1>
+<div>患者さんの大切な情報を守るための研修</div>
 </div>
+</header>
+
+<main class="wrap">
+
+<!-- 受講者認証 -->
+<section id="home" class="card">
+<h2>受講者認証</h2>
+
+<p>
+個人のタイムカード用QRコードを読み取ってください。
+カメラでの読み取り、または写真からの読み取りができます。
+</p>
+
+<button type="button" id="scanButton">QRコードを読み取る</button>
+
+<button type="button" id="photoQrButton">
+写真から読み取る
+</button>
+<input type="file" id="qrFileInput" accept="image/*" style="display:none">
+
+<div id="reader" class="hidden" style="margin-top:15px;"></div>
+<div id="qr-reader-photo" style="display:none;margin-top:15px;"></div>
+
+<div id="scanStatus" class="small" style="margin-top:10px;">
+QRコードを読み取ると、7桁の職員コードを自動取得します。
+</div>
+
+<div id="staffInfo" class="notice hidden">
+<strong>職員コード：</strong>
+<span id="staffIdDisplay"></span>
+</div>
+
+<button id="startButton" disabled>研修を開始する</button>
+
+<p class="small">
+※職員コードは7桁のコードを使用します。氏名・部署は入力しません。
+</p>
 </section>
 
+
+<!-- PDF研修 -->
+<section id="training" class="card hidden">
+<h2>研修資料</h2>
+
+<p>
+以下のPDFを最後まで確認してください。内容を確認した後、
+「確認テストへ進む」を押してください。
+</p>
+
+<div class="pdfbox">
+<iframe
+  src="2026年度_個人情報保護研修_医療従事者向け.pdf#page=1"
+  title="2026年度 個人情報保護研修">
+</iframe>
+</div>
+
+<p class="small">
+※スマートフォンではPDF表示部分を上下にスクロールして閲覧してください。
+</p>
+
+<button id="quizStartButton">確認テストへ進む →</button>
+</section>
+
+
+<!-- テスト -->
 <section id="quiz" class="card hidden">
-<h2>確認テスト</h2>
-<p>全10問です。8問以上正解で合格です。</p>
-<div class="progress-wrap"><div id="quizProgress" class="progress"></div></div>
+
+<div class="progress">
+<div id="qbar" class="bar"></div>
+</div>
+
+<h2 id="qtitle">確認テスト</h2>
+
 <div id="questionArea"></div>
+
 </section>
 
-<section id="result" class="card hidden center">
+
+<!-- 結果 -->
+<section id="result" class="card hidden">
+
 <h2>研修結果</h2>
-<div id="resultBox" class="result"></div>
-<p id="resultDetail"></p>
-<button id="sendBtn" class="success" onclick="sendResult()">受講記録を送信する</button>
-<p id="sendStatus"></p>
+
+<div id="score" class="result-score"></div>
+
+<div id="resultmsg"></div>
+
+<div id="info" class="hidden">
+
+<div class="notice">
+<strong>研修結果をGoogleスプレッドシートへ記録します。</strong>
+<p style="margin:8px 0 0;">
+下の「受講記録を送信する」を押してください。
+</p>
+</div>
+
+<button id="submitRecordButton">受講記録を送信する</button>
+
+</div>
+
 </section>
+
+
+<!-- 完了 -->
+<section id="done" class="card hidden">
+
+<h2 class="good">受講完了</h2>
+
+<p>
+受講記録の送信手続きを完了しました。
+</p>
+
+<p>
+これで「2026年度 個人情報保護研修」は終了です。
+</p>
+
+<p class="small">
+ご協力ありがとうございました。
+</p>
+
+<button onclick="location.reload()">トップへ戻る</button>
+
+</section>
+
 </main>
 
+<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+
 <script>
-const GAS_URL = "https://script.google.com/macros/s/AKfycbzcdvX23KkXxXGEnXKoFLNNHCKIXGB52HHSMD6x6R7zmtDLjaDuCoYp4AKNRuho6GGmZg/exec";
+/* ==========================================
+   Google Apps Script
+========================================== */
+const GAS_URL =
+"https://script.google.com/macros/s/AKfycbzcdvX23KkXxXGEnXKoFLNNHCKIXGB52HHSMD6x6R7zmtDLjaDuCoYp4AKNRuho6GGmZg/exec";
+
 const TRAINING_YEAR = "2026年度";
 const TRAINING_NAME = "個人情報保護研修";
 
+
+/* ==========================================
+   PDFに沿った確認テスト
+========================================== */
+const qs = [
+
+[
+"医療機関で扱う個人情報には、氏名や住所だけでなく、診療録・病歴・検査結果・画像なども含まれる。",
+"○"
+],
+
+[
+"業務上必要がなくても、知人や家族のカルテであれば興味本位で閲覧してよい。",
+"×"
+],
+
+[
+"患者氏名が写っていなければ、診療日や年齢、患部などが分かるカルテ画面を個人スマートフォンで撮影しても問題ない。",
+"×"
+],
+
+[
+"電子カルテから離れるときは、短時間であっても画面をロックすることが望ましい。",
+"○"
+],
+
+[
+"患者情報をFAXで送信する場合、送信前に宛先・FAX番号・内容を確認する。",
+"○"
+],
+
+[
+"患者情報を含むファイルは、自分しか使わない私物USBであれば持ち帰っても問題ない。",
+"×"
+],
+
+[
+"電子カルテのID・パスワードは、同僚から頼まれた場合でも本人に教えたり貸したりしてはいけない。",
+"○"
+],
+
+[
+"患者さんの氏名を書いていなければ、写真や病名、受診日などを組み合わせた情報を個人SNSに投稿しても問題ない。",
+"×"
+],
+
+[
+"患者情報の誤送信や紛失に気づいた場合、まず自分で処理してから必要に応じて報告すればよい。",
+"×"
+],
+
+[
+"「カルテを閉じ忘れた」「誤送信しそうになった」などのヒヤリハットも、再発防止のため報告・共有することが重要である。",
+"○"
+]
+
+];
+
+
+/* ==========================================
+   状態
+========================================== */
 let staffId = "";
-let slideIndex = 0;
-let quizIndex = 0;
-let score = 0;
+let qi = 0;
+let scoreN = 0;
+
 let qrScanner = null;
+let scannerRunning = false;
 
-const lessons = [
-{
- title:"1．医療機関で扱う個人情報",
- body:`<p>医療機関では、氏名・住所・電話番号だけでなく、診療録、検査結果、画像、病歴、診療・調剤に関する情報など、患者さんに関する多くの情報を扱います。</p><p>特に病歴や診療・検査に関する情報などは、慎重な取扱いが必要な情報です。</p>`,
- point:"「これは個人情報ではないだろう」と自己判断せず、患者さんに関する情報は大切に扱いましょう。"
-},
-{
- title:"2．カルテ・患者情報の閲覧",
- body:`<p>電子カルテや紙カルテは、業務上必要な範囲で利用します。</p><ul><li>担当していない患者さんを興味本位で閲覧しない</li><li>知人・家族・有名人などであっても、業務上必要がなければ閲覧しない</li><li>離席するときは画面をロックする</li></ul>`,
- point:"「見られるから見る」ではなく、「仕事に必要だから見る」が基本です。"
-},
-{
- title:"3．スマートフォン・写真",
- body:`<p>個人スマートフォンで患者さんの情報を撮影・保存すると、紛失や誤送信などにつながる可能性があります。</p><p>患者氏名が写っていない場合でも、日時・診療内容・画像などの組み合わせから患者さんが特定されることがあります。</p>`,
- point:"患者情報の撮影・保存は、院内のルールと許可された方法に従いましょう。"
-},
-{
- title:"4．メール・FAX",
- body:`<p>メールやFAXは、送信先を間違えるだけで情報が外部へ出てしまいます。</p><ul><li>宛先・FAX番号を確認する</li><li>添付ファイルの内容・宛先を確認する</li><li>必要以上の患者情報を添付しない</li></ul>`,
- point:"送信前の「ひと呼吸」が、誤送信防止につながります。"
-},
-{
- title:"5．USB・書類・私物PC",
- body:`<p>患者情報を含むファイルを私物USBや私物PCへコピーして持ち出すことは、院内ルールに反する可能性があります。</p><p>紙の書類も同じです。机の上、コピー機、プリンターなどに患者情報を放置しないよう注意します。</p>`,
- point:"「自分しか使わないから大丈夫」ではなく、許可された機器・保存場所・方法を使います。"
-},
-{
- title:"6．ID・パスワード",
- body:`<p>電子カルテなどのID・パスワードは本人を識別するための重要な情報です。</p><ul><li>他人に教えない</li><li>他人のIDを借りない</li><li>付箋などに書いて人目につく場所へ貼らない</li></ul>`,
- point:"ID・パスワードの共有は、誰が操作したのか分からなくなる原因にもなります。"
-},
-{
- title:"7．SNS・メッセージ",
- body:`<p>患者さんの氏名を書いていなくても、写真、年齢、診療日、病名、出来事などの組み合わせで個人が特定される場合があります。</p><p>個人SNSや私的なメッセージサービスへ患者情報を投稿しないようにします。</p>`,
- point:"「名前を書いていない＝匿名」ではありません。"
-},
-{
- title:"8．個人情報の事故が起きたら",
- body:`<p>誤送信、書類の紛失、USBの紛失、誤った患者情報の閲覧などに気づいたら、自己判断で隠さず、速やかに院内で決められた方法に従って報告します。</p><p>小さな「ヒヤリ・ハット」の段階で共有することも、再発防止につながります。</p>`,
- point:"事故をゼロにするだけでなく、早く気づき、早く報告し、被害拡大を防ぐことが重要です。"
-},
-{
- title:"9．今日から意識する3つ",
- body:`<p>患者情報を扱うときは、次の3点を意識しましょう。</p><ul><li><b>必要な人</b>が</li><li><b>必要な情報</b>を</li><li><b>必要な目的・方法</b>で扱う</li></ul>`,
- point:"迷ったときは、院内の責任者・個人情報担当者・情報システム担当者などに確認しましょう。"
-},
-{
- title:"10．参考資料",
- body:`<p>今回の研修内容は、厚生労働省・個人情報保護委員会が公開している医療・介護関係事業者向けの資料等を参考にしています。</p><ul><li>医療・介護関係事業者における個人情報の適切な取扱いのためのガイダンス</li><li>個人情報保護委員会「医療機関における個人情報の取扱いに関する注意喚起」</li><li>個人情報保護委員会「個人情報の研修資料・ヒヤリハット事例」</li></ul>`,
- point:"このスライドを読み終えたら「次へ」を押して、確認テストへ進みます。"
-}
-];
 
-const questions = [
-["診療録や検査結果などは、医療機関で慎重に取り扱う必要がある情報である。","○"],
-["業務上必要がなくても、知人のカルテを興味本位で閲覧してよい。","×"],
-["患者さんの氏名が写っていなければ、個人スマートフォンでカルテを撮影してよい。","×"],
-["FAX送信前には、宛先やFAX番号を確認する。","○"],
-["患者情報を含むファイルを私物USBへコピーして持ち帰っても、他人に見せなければ問題ない。","×"],
-["ID・パスワードは、同僚から頼まれた場合には教えてよい。","×"],
-["患者さんが特定できる情報を個人SNSへ投稿してはいけない。","○"],
-["個人情報の誤送信に気づいたら、まず隠して様子を見る。","×"],
-["離席時は、第三者にカルテ画面を見られないよう画面をロックする。","○"],
-["個人情報に関する事故やヒヤリ・ハットは、院内で決められた方法に従って報告する。","○"]
-];
+/* ==========================================
+   共通
+========================================== */
+function show(id){
 
-document.getElementById("slideTotal").textContent = lessons.length;
+  document.querySelectorAll("main section").forEach(function(x){
+    x.classList.add("hidden");
+  });
 
-function startCamera(){
-  if(qrScanner) return;
-  qrScanner = new Html5Qrcode("reader");
-  qrScanner.start({facingMode:"environment"},{fps:10,qrbox:250},
-    decodedText => {
-      setStaff(decodedText);
-      qrScanner.stop().then(()=>{qrScanner.clear();qrScanner=null;}).catch(()=>{});
-    },
-    ()=>{}
-  ).catch(err=>alert("カメラを起動できませんでした。ブラウザのカメラ許可を確認してください。"));
+  document.getElementById(id).classList.remove("hidden");
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
 }
 
-function scanFile(input){
-  if(!input.files || !input.files[0]) return;
-  const scanner = new Html5Qrcode("reader");
-  scanner.scanFile(input.files[0], true)
-    .then(decodedText=>setStaff(decodedText))
-    .catch(()=>alert("QRコードを読み取れませんでした。QRコード全体が写った画像を選択してください。"))
-    .finally(()=>{try{scanner.clear()}catch(e){}});
+function isValidStaffId(value){
+  return /^\d{7}$/.test(String(value).trim());
 }
 
-function setStaff(value){
-  const v = String(value).trim();
-  if(!/^\d{7}$/.test(v)){
-    alert("個人コードを取得できませんでした。7桁のQRコードを確認してください。");
+function showQrStatus(message){
+  const el = document.getElementById("scanStatus");
+  if(el) el.textContent = message;
+}
+
+
+/* ==========================================
+   カメラQR
+========================================== */
+async function startQrScanner(){
+
+  const reader = document.getElementById("reader");
+  const status = document.getElementById("scanStatus");
+  const startButton = document.getElementById("startButton");
+
+  if(typeof Html5Qrcode === "undefined"){
+    alert("QRコード読み取り機能を読み込めませんでした。");
     return;
   }
-  staffId=v;
-  document.getElementById("staffId").textContent=v;
-  document.getElementById("startBtn").disabled=false;
+
+  if(scannerRunning){
+    return;
+  }
+
+  reader.classList.remove("hidden");
+  status.textContent =
+    "カメラを起動しています。QRコードを画面に映してください。";
+
+  qrScanner = new Html5Qrcode("reader");
+  scannerRunning = true;
+
+  try{
+
+    await qrScanner.start(
+      { facingMode:"environment" },
+      {
+        fps:10,
+        qrbox:{ width:250, height:250 }
+      },
+
+      async function(decodedText){
+
+        const code = String(decodedText).trim();
+
+        if(!isValidStaffId(code)){
+          status.textContent =
+            "7桁の職員コードではありません。もう一度読み取ってください。";
+          return;
+        }
+
+        setStaff(code);
+
+        try{
+          await qrScanner.stop();
+        }catch(e){}
+
+        try{
+          qrScanner.clear();
+        }catch(e){}
+
+        scannerRunning = false;
+        reader.classList.add("hidden");
+      },
+
+      function(errorMessage){
+        // QR未検出時は表示しない
+      }
+    );
+
+  }catch(error){
+
+    scannerRunning = false;
+
+    try{
+      qrScanner.clear();
+    }catch(e){}
+
+    reader.classList.add("hidden");
+
+    console.error(error);
+
+    alert(
+      "カメラを起動できませんでした。ブラウザのカメラ使用許可を確認してください。"
+    );
+
+    status.textContent =
+      "QRコード読み取りを開始できませんでした。";
+  }
 }
 
+
+/* ==========================================
+   写真QR
+========================================== */
+async function scanQrFromPhoto(event){
+
+  const fileInput = event.target;
+  const file = fileInput.files && fileInput.files[0];
+
+  if(!file){
+    return;
+  }
+
+  const photoBtn = document.getElementById("photoQrButton");
+  const cameraBtn = document.getElementById("scanButton");
+  const photoReader = document.getElementById("qr-reader-photo");
+
+  photoBtn.disabled = true;
+  cameraBtn.disabled = true;
+
+  photoReader.style.display = "block";
+  photoReader.innerHTML = "";
+
+  showQrStatus(
+    "写真を解析しています…少しお待ちください。"
+  );
+
+  let photoScanner = null;
+
+  try{
+
+    if(typeof Html5Qrcode === "undefined"){
+      throw new Error("Html5Qrcodeが読み込まれていません。");
+    }
+
+    photoScanner =
+      new Html5Qrcode("qr-reader-photo");
+
+    const decodedText =
+      await photoScanner.scanFile(file,true);
+
+    const code = String(decodedText).trim();
+
+    if(!isValidStaffId(code)){
+      throw new Error("7桁の職員コードではありません。");
+    }
+
+    setStaff(code);
+
+    showQrStatus(
+      "QRコードを確認しました。下の「研修を開始する」を押してください。"
+    );
+
+  }catch(error){
+
+    console.error(
+      "写真QR読み取りエラー:",
+      error
+    );
+
+    showQrStatus(
+      "写真からQRコードを読み取れませんでした。" +
+      "QRコード全体が写っている、ぼやけていない写真を選んでください。"
+    );
+
+  }finally{
+
+    try{
+      if(photoScanner){
+        await photoScanner.clear();
+      }
+    }catch(e){}
+
+    photoReader.innerHTML = "";
+    photoReader.style.display = "none";
+
+    photoBtn.disabled = false;
+    cameraBtn.disabled = false;
+
+    fileInput.value = "";
+  }
+}
+
+
+/* ==========================================
+   職員コード設定
+========================================== */
+function setStaff(code){
+
+  staffId = String(code).trim();
+
+  document.getElementById(
+    "staffIdDisplay"
+  ).textContent = staffId;
+
+  document.getElementById(
+    "staffInfo"
+  ).classList.remove("hidden");
+
+  document.getElementById(
+    "startButton"
+  ).disabled = false;
+}
+
+
+/* ==========================================
+   研修開始
+========================================== */
 function startTraining(){
-  if(!staffId){alert("先にQRコードを読み取ってください。");return;}
-  document.getElementById("home").classList.add("hidden");
-  document.getElementById("training").classList.remove("hidden");
-  showSlide();
+
+  if(staffId === ""){
+    alert("先に個人QRコードを読み取ってください。");
+    return;
+  }
+
+  show("training");
 }
 
-function showSlide(){
-  const s=lessons[slideIndex];
-  document.getElementById("slideNo").textContent=slideIndex+1;
-  document.getElementById("slideTitle").textContent=s.title;
-  document.getElementById("slideBody").innerHTML=s.body;
-  document.getElementById("slidePoint").innerHTML="<b>ポイント：</b>"+s.point;
-  document.getElementById("progress").style.width=((slideIndex+1)/lessons.length*100)+"%";
-  document.getElementById("prevBtn").disabled=slideIndex===0;
-  document.getElementById("nextBtn").textContent=slideIndex===lessons.length-1?"確認テストへ →":"次へ →";
-  window.scrollTo({top:0,behavior:"smooth"});
+
+/* ==========================================
+   テスト開始
+========================================== */
+function startQuiz(){
+
+  qi = 0;
+  scoreN = 0;
+
+  show("quiz");
+  renderQuiz();
 }
 
-function prevSlide(){if(slideIndex>0){slideIndex--;showSlide();}}
-function nextSlide(){
-  if(slideIndex<lessons.length-1){slideIndex++;showSlide();}
-  else{document.getElementById("training").classList.add("hidden");document.getElementById("quiz").classList.remove("hidden");showQuestion();}
-}
 
-function showQuestion(){
-  const q=questions[quizIndex];
-  document.getElementById("quizProgress").style.width=((quizIndex)/questions.length*100)+"%";
-  document.getElementById("questionArea").innerHTML=`
-    <p>第${quizIndex+1}問 / ${questions.length}問</p>
-    <div class="question">${q[0]}</div>
-    <div class="center">
-      <button class="choice" onclick="answer('○')">○　正しい</button>
-      <button class="choice secondary" onclick="answer('×')">×　誤り</button>
-    </div>`;
-  window.scrollTo({top:0,behavior:"smooth"});
-}
+/* ==========================================
+   テスト表示
+========================================== */
+function renderQuiz(){
 
-function answer(v){
-  if(v===questions[quizIndex][1]) score++;
-  quizIndex++;
-  if(quizIndex<questions.length) showQuestion();
-  else showResult();
-}
+  document.getElementById("qtitle").textContent =
+    "確認テスト " + (qi + 1) + " / " + qs.length;
 
-function showResult(){
-  document.getElementById("quiz").classList.add("hidden");
-  document.getElementById("result").classList.remove("hidden");
-  const points=score*10;
-  const passed=points>=80;
-  document.getElementById("resultBox").className="result "+(passed?"pass":"fail");
-  document.getElementById("resultBox").textContent=passed?"合格":"不合格";
-  document.getElementById("resultDetail").textContent=`得点：${points}点（10問中 ${score}問正解）`;
-  document.getElementById("sendStatus").textContent="";
-  window.scrollTo({top:0,behavior:"smooth"});
-}
+  document.getElementById("qbar").style.width =
+    ((qi + 1) / qs.length * 100) + "%";
 
-function sendResult(){
-  const points=score*10;
-  const result=points>=80?"合格":"不合格";
-  const btn=document.getElementById("sendBtn");
-  btn.disabled=true;
-  document.getElementById("sendStatus").textContent="送信中…";
-  const params=new URLSearchParams({
-    year:TRAINING_YEAR,
-    trainingName:TRAINING_NAME,
-    staffId:staffId,
-    score:String(points),
-    result:result
+  const area =
+    document.getElementById("questionArea");
+
+  area.innerHTML = "";
+
+  const q =
+    document.createElement("div");
+
+  q.className = "question";
+  q.textContent = qs[qi][0];
+
+  area.appendChild(q);
+
+  const note =
+    document.createElement("p");
+
+  note.className = "small";
+  note.textContent =
+    "正しいと思う場合は「○」、誤りと思う場合は「×」を選択してください。";
+
+  area.appendChild(note);
+
+  ["○","×"].forEach(function(answer){
+
+    const button =
+      document.createElement("button");
+
+    button.className = "choice";
+
+    button.textContent =
+      answer + "　" +
+      (answer === "○" ? "正しい" : "誤り");
+
+    button.onclick = function(){
+
+      answerQuestion(answer);
+
+    };
+
+    area.appendChild(button);
   });
-  fetch(GAS_URL,{method:"POST",body:params,mode:"no-cors"})
-    .then(()=>{
-      document.getElementById("sendStatus").textContent="受講記録を送信しました。";
-    })
-    .catch(()=>{
-      btn.disabled=false;
-      document.getElementById("sendStatus").textContent="送信できませんでした。通信環境を確認して再度お試しください。";
-    });
 }
+
+
+/* ==========================================
+   採点
+========================================== */
+function answerQuestion(answer){
+
+  if(answer === qs[qi][1]){
+    scoreN++;
+  }
+
+  qi++;
+
+  if(qi < qs.length){
+
+    renderQuiz();
+
+  }else{
+
+    showResult();
+  }
+}
+
+
+/* ==========================================
+   結果
+========================================== */
+function showResult(){
+
+  show("result");
+
+  const point =
+    scoreN * 10;
+
+  const passed =
+    point >= 80;
+
+  document.getElementById("score").innerHTML =
+    "<strong>" +
+    scoreN +
+    " / " +
+    qs.length +
+    "問（" +
+    point +
+    "点）" +
+    "</strong>";
+
+  const message =
+    document.getElementById("resultmsg");
+
+  if(passed){
+
+    message.innerHTML =
+      '<p class="good">' +
+      '合格基準（80点以上）を満たしました。' +
+      '</p>';
+
+    document.getElementById(
+      "info"
+    ).classList.remove("hidden");
+
+    document.getElementById(
+      "submitRecordButton"
+    ).disabled = false;
+
+  }else{
+
+    message.innerHTML =
+      '<p class="bad">' +
+      '80点未満です。PDFの研修資料をもう一度確認して、再受講してください。' +
+      '</p>' +
+      '<button onclick="restartTraining()">' +
+      'もう一度受講する' +
+      '</button>';
+
+    document.getElementById(
+      "info"
+    ).classList.add("hidden");
+  }
+}
+
+
+/* ==========================================
+   再受講
+========================================== */
+function restartTraining(){
+
+  qi = 0;
+  scoreN = 0;
+
+  show("training");
+}
+
+
+/* ==========================================
+   Googleスプレッドシートへ送信
+========================================== */
+function submitRecord(){
+
+  const button =
+    document.getElementById(
+      "submitRecordButton"
+    );
+
+  if(button.disabled){
+    return;
+  }
+
+  button.disabled = true;
+  button.textContent = "送信中...";
+
+  const point =
+    scoreN * 10;
+
+  const resultText =
+    point >= 80 ? "合格" : "不合格";
+
+
+  const form =
+    document.createElement("form");
+
+  form.method = "POST";
+  form.action = GAS_URL;
+  form.target = "submitFrame";
+
+
+  function addHidden(name,value){
+
+    const input =
+      document.createElement("input");
+
+    input.type = "hidden";
+    input.name = name;
+    input.value = value;
+
+    form.appendChild(input);
+  }
+
+
+  addHidden(
+    "year",
+    TRAINING_YEAR
+  );
+
+  addHidden(
+    "trainingName",
+    TRAINING_NAME
+  );
+
+  addHidden(
+    "staffId",
+    staffId
+  );
+
+  addHidden(
+    "score",
+    point
+  );
+
+  addHidden(
+    "result",
+    resultText
+  );
+
+
+  document.body.appendChild(form);
+
+  show("done");
+
+
+  setTimeout(function(){
+
+    form.submit();
+
+    setTimeout(function(){
+
+      if(form.parentNode){
+        form.parentNode.removeChild(form);
+      }
+
+    },500);
+
+  },300);
+}
+
+
+/* ==========================================
+   イベント
+========================================== */
+document.getElementById(
+  "scanButton"
+).addEventListener(
+  "click",
+  startQrScanner
+);
+
+document.getElementById(
+  "photoQrButton"
+).addEventListener(
+  "click",
+  function(){
+    document.getElementById(
+      "qrFileInput"
+    ).click();
+  }
+);
+
+document.getElementById(
+  "qrFileInput"
+).addEventListener(
+  "change",
+  scanQrFromPhoto
+);
+
+document.getElementById(
+  "startButton"
+).addEventListener(
+  "click",
+  startTraining
+);
+
+document.getElementById(
+  "quizStartButton"
+).addEventListener(
+  "click",
+  startQuiz
+);
+
+document.getElementById(
+  "submitRecordButton"
+).addEventListener(
+  "click",
+  submitRecord
+);
 </script>
+
 </body>
 </html>
