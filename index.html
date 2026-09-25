@@ -30,8 +30,20 @@ button:disabled{opacity:.5;cursor:not-allowed}
 .bad{color:#b42318;font-weight:bold}
 .notice{background:#fff4d6;border-left:5px solid #f0a000;padding:15px;margin:20px 0;border-radius:8px}
 .result-score{font-size:24px;margin:15px 0}
-.pdfbox{height:720px;margin:15px 0}
-.pdfbox iframe{width:100%;height:100%;border:1px solid #cbd5e1;border-radius:10px}
+.pdfbox{
+  margin:15px 0;
+  padding:10px;
+  background:#e2e8f0;
+  border:1px solid #cbd5e1;
+  border-radius:10px;
+}
+
+#pdfViewer canvas{
+  display:block;
+  max-width:100%;
+  height:auto;
+  margin:0 auto;
+}
 .question{font-size:19px;font-weight:bold;line-height:1.8;margin:22px 0}
 .status{margin-top:10px}
 </style>
@@ -105,12 +117,7 @@ QRコードを読み取ると、7桁の職員コードを自動取得します�
 「確認テストへ進む」を押してください。
 </p>
 
-<div class="pdfbox">
-<iframe
-  src="security_training.pdf#page=1"
-  title="2026年度 個人情報保護研修">
-</iframe>
-</div>
+<div id="pdfViewer" class="pdfbox"></div>
 
 <p class="small">
 ※スマートフォンではPDF表示部分を上下にスクロールして閲覧してください。
