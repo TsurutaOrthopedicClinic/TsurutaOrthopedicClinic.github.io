@@ -74,14 +74,24 @@ QRコードを読み取ると、7桁の職員コードを自動取得します�
 </div>
 
 <div id="staffInfo" class="notice hidden">
-<strong>職員コード：</strong>
+<strong>受講者：</strong>
 <span id="staffIdDisplay"></span>
+</div>
+
+<div style="margin-top:20px;padding-top:18px;border-top:1px solid #e2e8f0;">
+  <h3>QRコードを読み取れない場合</h3>
+  <p>QRコードの代わりに氏名を入力して受講できます。</p>
+  <input type="text" id="staffNameInput" placeholder="氏名を入力してください"
+    autocomplete="name"
+    style="width:100%;box-sizing:border-box;padding:13px;border:1px solid #cbd5e1;border-radius:10px;font-size:16px;">
+  <button type="button" id="nameSetButton">氏名で受講する</button>
 </div>
 
 <button id="startButton" disabled>研修を開始する</button>
 
 <p class="small">
-※職員コードは7桁のコードを使用します。氏名・部署は入力しません。
+※QRコードを読み取った場合は7桁の職員コードを記録します。
+氏名で受講した場合は入力した氏名を記録します。
 </p>
 </section>
 
@@ -95,15 +105,11 @@ QRコードを読み取ると、7桁の職員コードを自動取得します�
 「確認テストへ進む」を押してください。
 </p>
 
-<div id="pdfViewer" style="
-  width:100%;
-  background:#e5e7eb;
-  padding:10px 0;
-  border-radius:10px;
-">
-  <p style="text-align:center;">
-    PDFを読み込んでいます……
-  </p>
+<div class="pdfbox">
+<iframe
+  src="情報セキュリティ研修スライド.pdf#page=1"
+  title="2026年度 個人情報保護研修">
+</iframe>
 </div>
 
 <p class="small">
@@ -177,62 +183,48 @@ QRコードを読み取ると、7桁の職員コードを自動取得します�
 </main>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-
 <script>
 pdfjsLib.GlobalWorkerOptions.workerSrc =
   "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
 const PDF_FILE = encodeURI("情報セキュリティ研修スライド.pdf");
+let pdfLoaded = false;
 
 async function loadPDF() {
-
   const viewer = document.getElementById("pdfViewer");
-
   try {
-
     const pdf = await pdfjsLib.getDocument(PDF_FILE).promise;
-
     viewer.innerHTML = "";
 
     for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
-
       const page = await pdf.getPage(pageNumber);
-
       const container = document.createElement("div");
-
       container.style.width = "100%";
       container.style.marginBottom = "15px";
       container.style.background = "#ffffff";
       container.style.boxShadow = "0 1px 5px #00000020";
 
       const canvas = document.createElement("canvas");
-
       canvas.style.display = "block";
-      canvas.style.width = "100%";
+      canvas.style.margin = "0 auto";
+      canvas.style.maxWidth = "100%";
       canvas.style.height = "auto";
 
       container.appendChild(canvas);
       viewer.appendChild(container);
 
       const viewport = page.getViewport({scale: 1});
-
       const viewerWidth = Math.max(viewer.clientWidth - 20, 300);
-
       const scale = viewerWidth / viewport.width;
-
-      const scaledViewport =
-        page.getViewport({scale: scale});
-
+      const scaledViewport = page.getViewport({scale: scale});
       const dpr = window.devicePixelRatio || 1;
 
       canvas.width = scaledViewport.width * dpr;
       canvas.height = scaledViewport.height * dpr;
-
       canvas.style.width = scaledViewport.width + "px";
       canvas.style.height = scaledViewport.height + "px";
 
       const context = canvas.getContext("2d");
-
       context.setTransform(dpr, 0, 0, dpr, 0, 0);
 
       await page.render({
@@ -240,20 +232,14 @@ async function loadPDF() {
         viewport: scaledViewport
       }).promise;
     }
-
   } catch (error) {
-
     console.error(error);
-
     viewer.innerHTML =
-      '<p style="color:#b42318;text-align:center;">' +
-      'PDFを読み込めませんでした。' +
-      '</p>';
+      '<p style="color:#b42318;text-align:center;">PDFを読み込めませんでした。</p>';
   }
 }
-
 </script>
-  
+
 <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 
 <script>
@@ -553,21 +539,45 @@ function setStaff(code){
 
 
 /* ==========================================
-   研修開始
+   氏名入力
 ========================================== */
-let pdfLoaded = false;
+function setStaffName(){
 
-async function startTraining(){
+  const input = document.getElementById("staffNameInput");
+  const name = input.value.trim();
 
-  if(staffId === ""){
-    alert("先に個人QRコードを読み取ってください。");
+  if(name === ""){
+    alert("氏名を入力してください。");
+    input.focus();
     return;
   }
 
-  // 先に研修画面を表示
+  staffId = name;
+
+  document.getElementById("staffIdDisplay").textContent =
+    "氏名：" + name;
+
+  document.getElementById("staffInfo").classList.remove("hidden");
+  document.getElementById("startButton").disabled = false;
+
+  showQrStatus(
+    "氏名を確認しました。下の「研修を開始する」を押してください。"
+  );
+}
+
+
+/* ==========================================
+   研修開始
+========================================== */
+async function startTraining(){
+
+  if(staffId === ""){
+    alert("先にQRコードを読み取るか、氏名を入力してください。");
+    return;
+  }
+
   show("training");
 
-  // 画面が表示されてからPDFを読み込む
   if(!pdfLoaded){
     pdfLoaded = true;
     await loadPDF();
@@ -853,6 +863,24 @@ document.getElementById(
 ).addEventListener(
   "change",
   scanQrFromPhoto
+);
+
+document.getElementById(
+  "nameSetButton"
+).addEventListener(
+  "click",
+  setStaffName
+);
+
+document.getElementById(
+  "staffNameInput"
+).addEventListener(
+  "keydown",
+  function(event){
+    if(event.key === "Enter"){
+      setStaffName();
+    }
+  }
 );
 
 document.getElementById(
