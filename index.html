@@ -196,11 +196,17 @@ select{
 個人のタイムカード用QRコードを読み取ってください。
 </p>
 
-<button type="button" id="scanButton">
+<button type="button" id="scanButton" onclick="startQrScanner()">
 QRコードを読み取る
 </button>
 
+<button type="button" id="photoQrButton" onclick="document.getElementById('qrFileInput').click()">
+写真から読み取る
+</button>
+<input type="file" id="qrFileInput" accept="image/*" style="display:none" onchange="scanQrFromPhoto(event)">
+
 <div id="reader" class="hidden" style="margin-top:15px;"></div>
+<div id="qr-reader-photo" style="display:none;"></div>
 
 <div id="scanStatus" class="small" style="margin-top:10px;">
 QRコードを読み取ると、職員コードを自動取得します。
@@ -747,7 +753,7 @@ async function scanQrFromPhoto(event) {
   }
 }
 
-function startQrScanner(){
+async function startQrScanner(){
 
     const reader = document.getElementById("reader");
     const status = document.getElementById("scanStatus");
