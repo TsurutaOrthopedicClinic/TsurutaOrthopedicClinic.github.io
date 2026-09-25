@@ -95,11 +95,15 @@ QRコードを読み取ると、7桁の職員コードを自動取得します�
 「確認テストへ進む」を押してください。
 </p>
 
-<div class="pdfbox">
-<iframe
-   src="security_training.pdf#page=1"
-  title="2026年度 個人情報保護研修">
-</iframe>
+<div id="pdfViewer" style="
+  width:100%;
+  background:#e5e7eb;
+  padding:10px 0;
+  border-radius:10px;
+">
+  <p style="text-align:center;">
+    PDFを読み込んでいます……
+  </p>
 </div>
 
 <p class="small">
@@ -172,6 +176,85 @@ QRコードを読み取ると、7桁の職員コードを自動取得します�
 
 </main>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+const PDF_FILE = encodeURI("情報セキュリティ研修スライド.pdf");
+
+async function loadPDF() {
+
+  const viewer = document.getElementById("pdfViewer");
+
+  try {
+
+    const pdf = await pdfjsLib.getDocument(PDF_FILE).promise;
+
+    viewer.innerHTML = "";
+
+    for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
+
+      const page = await pdf.getPage(pageNumber);
+
+      const container = document.createElement("div");
+
+      container.style.width = "100%";
+      container.style.marginBottom = "15px";
+      container.style.background = "#ffffff";
+      container.style.boxShadow = "0 1px 5px #00000020";
+
+      const canvas = document.createElement("canvas");
+
+      canvas.style.display = "block";
+      canvas.style.width = "100%";
+      canvas.style.height = "auto";
+
+      container.appendChild(canvas);
+      viewer.appendChild(container);
+
+      const viewport = page.getViewport({scale: 1});
+
+      const viewerWidth = viewer.clientWidth - 20;
+
+      const scale = viewerWidth / viewport.width;
+
+      const scaledViewport =
+        page.getViewport({scale: scale});
+
+      const dpr = window.devicePixelRatio || 1;
+
+      canvas.width = scaledViewport.width * dpr;
+      canvas.height = scaledViewport.height * dpr;
+
+      canvas.style.width = scaledViewport.width + "px";
+      canvas.style.height = scaledViewport.height + "px";
+
+      const context = canvas.getContext("2d");
+
+      context.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      await page.render({
+        canvasContext: context,
+        viewport: scaledViewport
+      }).promise;
+    }
+
+  } catch (error) {
+
+    console.error(error);
+
+    viewer.innerHTML =
+      '<p style="color:#b42318;text-align:center;">' +
+      'PDFを読み込めませんでした。' +
+      '</p>';
+  }
+}
+
+window.addEventListener("load", loadPDF);
+</script>
+  
 <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 
 <script>
